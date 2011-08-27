@@ -1,0 +1,24 @@
+#class mypaths kill
+#class mypaths open
+
+#act {Sorry, there's no exit in that direction.} {#map undo}
+#act {Sorry, you'll have to rest a while before you can move.} {#map undo}
+#act {In your haste, you trip and fall!} {#map undo}
+#act {You must rest a moment before proceeding} {#map undo}
+#act {You tumble %1, out of the room!} {#nop}
+
+#alias cyc {#map run {cyclops} 0.75}
+#alias temple {#map run {temple1} 0.75}
+#alias mino {#map run {minotaur} 0.75}
+#alias ogre {#map run {ogre} 0.75}
+#alias arena {#map run {arena1} 0.75}
+
+#nop #function {goto} {
+#nop   #nop %1 is name of place to go
+#nop   #map find {%1};
+#nop   #path save forward whereto;
+#nop   #nop need to parse whereto and create a "steps" list
+#nop   #nop foreach step, go step (repeat if necessary, fight)
+#nop }
+
+#class mypaths close

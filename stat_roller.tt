@@ -1,0 +1,116 @@
+#class reroll kill
+#class reroll open
+#nop todo -- add option for fuzzy matching of desired values
+#nop todo -- add option to prompt user when total stats are within X of desired
+
+#act {You must rest a moment before proceeding!} {#delay 5 st}
+
+#nop Reroll Script
+#nop 
+#nop   Goblin Hunter (max: 16, 16, 21, 24, 29, 14, 34)
+#nop first hunter got: 14, 15, 21, 24, 28, 9, 34
+#nop #var desired_int 12
+#nop #var desired_kno 5
+#nop #var desired_phy 19
+#nop #var desired_sta 20
+#nop #var desired_agi 27
+#nop #var desired_cha 5
+#nop #var desired_vit 29
+#nop   Goblin Rogue
+#nop #var desired_int 12
+#nop #var desired_kno 5
+#nop #var desired_phy 19
+#nop #var desired_sta 20
+#nop #var desired_agi 30
+#nop #var desired_cha 5
+#nop #var desired_vit 25
+#nop   Goblin Acolyte (max: 19, 19, 18, 23, 26, 15, 29)
+#nop   ended up with: 18, 17, 16, 22, 24, 15, 25
+#var desired_int 15
+#var desired_kno 15
+#var desired_phy 14
+#var desired_sta 19
+#var desired_agi 22
+#var desired_cha 5
+#var desired_vit 23
+#nop   Elven Necro -- took awhile
+#nop #var desired_int 20
+#nop #var desired_kno 22
+#nop #var desired_phy 10
+#nop #var desired_sta 12
+#nop #var desired_agi 12
+#nop #var desired_cha 5
+#nop #var desired_vit 20
+#nop   Elven Necro -- pretty quick
+#nop #var desired_int 19
+#nop #var desired_kno 21
+#nop #var desired_phy 8
+#nop #var desired_sta 10
+#nop #var desired_agi 10
+#nop #var desired_cha 5
+#nop #var desired_vit 18
+
+
+#var int 0
+#var kno 0
+#var phy 0
+#var sta 0
+#var agi 0
+#var cha 0
+#var vit 0
+#var do_reroll 0
+#var tries 0
+
+#alias {check_reroll}
+{
+  #var do_reroll 0;
+  #math {tries} {$tries +1};
+  #if {$int < $desired_int} {
+   #echo {-- int too low -- got: $int wanted: $desired_int};
+   #var do_reroll 1
+  };
+  #if {$kno < $desired_kno} {
+   #echo {-- kno too low -- got: $kno wanted: $desired_kno};
+   #var do_reroll 1
+  };
+  #if {$phy < $desired_phy} {
+   #echo {-- phy too low -- got: $phy wanted: $desired_phy};
+   #var do_reroll 1
+  };
+  #if {$sta < $desired_sta} {
+   #echo {-- sta too low -- got: $sta wanted: $desired_sta};
+   #var do_reroll 1
+  };
+  #if {$agi < $desired_agi} {
+   #echo {-- agi too low -- got: $agi wanted: $desired_agi};
+   #var do_reroll 1
+  };
+  #if {$cha < $desired_cha} {
+   #echo {-- cha too low -- got: $cha wanted: $desired_cha};
+   #var do_reroll 1
+  };
+  #if {$vit < $desired_vit} {
+   #echo {-- vit too low -- got: $vit wanted: $desired_vit};
+   #var do_reroll 1
+  };
+  #if {$do_reroll == 1} {
+     #delay .1 {#send reroll}
+  }; 
+  #else 
+  {
+     #echo {stats achieved -- took: $tries tries}
+     #var tries 0
+     #class reroll kill
+  }
+}
+
+#act {Intellect:    %1} {#var int %1}
+#act {Knowledge:    %1} {#var kno %1}
+#act {Physique:     %1} {#var phy %1}
+#act {Stamina:      %1} {#var sta %1}
+#act {Agility:      %1} {#var agi %1}
+#act {Charisma:     %1} {#var cha %1}
+#act {Vitality:     %1 / } {#var vit %1}
+#act {Encumberance:} {check_reroll}
+
+#class reroll close

@@ -1,0 +1,5 @@
+2011-08-26 after X iterations in arena (or loop), check food / water supplies in inventory to make a run in necessary
+2011-08-26 add bbs reconnect / auto-login
+2011-08-26 run st to update health after getting hit / hit by trap.  But only at the end of a combat round if possible
+2011-08-26 update health (run st) after healing (spell / pot)
+2011-08-26 fix finding monster when multiple of same

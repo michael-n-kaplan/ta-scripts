@@ -1,0 +1,1 @@
+export TODOTXT_CFG_FILE=`pwd`/todo.cfg

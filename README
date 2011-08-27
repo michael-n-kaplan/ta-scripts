@@ -1,0 +1,6 @@
+run: . setup_todo
+to setup the todo.cfg environemnt variable to use the todo.cfg for
+this project
+
+to reload map:
+  #map read ta.map 
