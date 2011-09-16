@@ -1,0 +1,19 @@
+#var data 0
+
+#alias printa {
+  #echo { (alias) data: $data }
+}
+
+#function printb {
+  #echo { (function) data: $data }
+}
+
+#alias tt {
+  #var data {base data};
+  #echo {(base) data: $data};
+  #delay {1.5} {printa};
+  #delay {1.5} {@printb{}};
+  #echo {(base) data after delays: $data};
+  #var data {edited data};
+  #echo {(base) data after edit: $data};
+}
