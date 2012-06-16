@@ -3,3 +3,6 @@
 2011-08-26 run st to update health after getting hit / hit by trap.  But only at the end of a combat round if possible
 2011-08-26 update health (run st) after healing (spell / pot)
 2011-08-26 fix finding monster when multiple of same
+2011-09-02 chunk code into classes better so it's easier to enable / disable functionality.  Ie, auto-heal switch, auto-combat switch
+2011-09-02 use the chat protocol and a separate tt++ instance to log all chat messages (or other messages of interest, like exp/hit)
+2011-09-02 break per-char config data (such as combat tactics, healing method, food/drink method) into separate files and keep all generic combat / arena / movement classes separate
