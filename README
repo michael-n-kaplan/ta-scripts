@@ -24,3 +24,5 @@ Current scripting:
   #read <char>.tt
   #read health.tt
   ra
+
+  #ali hs #read health.tt

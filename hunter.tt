@@ -1,0 +1,162 @@
+#class general kill
+#class general open
+#nop TODO: msg when capped exp and either auto-train or stop / log
+#nop TODO: no message on movement except potential room descr change
+#nop   this message shows up with or w/o mobs in room
+#nop Messages:
+#nop    "A spiked trap catches your foot and pain shoots up your leg!"
+#nop    "Player is here" (player present)
+#nop    "You intoned the spell for Player which healed 13 damage!"
+#nop    ie "There are two cyclopes"
+#nop    ie "There is a cyclops"
+
+#nop TODO: add ticker time left to promtbar in better resolution
+#nop TODO: use "gr" to track Ready state (for movement)
+#nop TODO: separate tickers for combat / casting
+#nop TODO: smart tickers for multi-round spells
+#nop TODO: add auto-heal for able classes
+#nop TODO: add exp tracking (hourly rate, exp /hit, etc)
+#nop TODO: serialize tracking to db
+#nop TODO: add walking (looping) scripts
+#nop #act {gold drop} {#send g g}
+#nop TODO: add monster chart to not attack friendlies / players
+#nop TODO: add monster difficulty (to run from too tough)
+#nop TODO: track monster dmg potential and hp range
+#nop TODO: track mob movement "A %1 has just arrived from " into room
+#nop TODO: track move movement to follow while scripting
+#nop    "The troll has just gone downward"
+#nop    "The troll has just gone to the south"
+#nop TODO: auto-heal group
+#nop TODO: more proper eating / drinking responses 
+#nop   "You're hungry." "You're thirsty."
+#nop   Check for food / drink in inventory, use what you have
+#nop     ration / preserved ration, waterskin / barrel
+#nop   Cast spell if avail (druid)
+#nop   Request spell if avail (party with druid)
+#nop   Hunt if no food (hunter only)
+#nop   Buy food if possible (in town, can get to town easy, etc)
+#nop   if no other option, hang up
+#nop TODO: add room attacking for spell-casters (no high lvl spell casters avail yet)
+#nop TODO: handle falling, "In your haste, you trip and fall!"
+#nop TODO: handle auto-gather items
+#nop TODO: handle auto-deposit gold
+#nop TODO: acolyte follow and heal script (no attacking), for PL
+#nop TODO: sorc enhance script
+
+#nop Use: #unact {%*} to kill all actions
+
+#nop might be a or an, might be a comma after mob
+#act {You're thirsty.} {drink wat}
+#act {You're hungry.} {eat ration}
+#nop #act {There is nobody here.} { #var cur_mob "0"}
+#act {There is a%? %w%? %*here.} { #var cur_mob %2}
+#nop strip last characters of multy-mobs to account for es / ies
+#nop thos letter will prevent attacks
+#act {There are %w %w%?%?%? %*here.} { #var cur_mob %2}
+
+#alias {health_check}
+{
+  #nop #if { $ph < 70 && $cur_mana > 4 } {
+  #nop   #send {cast kusamotu Player};
+  #nop }
+  #nop #if { $ph < 90 && $cur_mana > 1 } {
+  #nop   #send {cast kamotu Player};
+  #nop }
+}
+
+#alias {leave_arena} {
+  #nop nw;n;n;w;buy healing;e;s;s;se;st;
+  s;s;s;s;buy healing;n;n;n;n;
+}
+
+#var runArena 0
+#alias ra { #var runArena 1;arena_check }
+#alias ka {#var runArena 0}
+#var inArena 0
+#act {^You're in the %1.$} {
+  #regexp {%1} {arena} {#var inArena 1} {#var inArena 0}
+}
+
+#alias {arena_check} 
+{
+  #nop  Check Health, (requires health.tt active) leave if low;
+  #if { $ph > 80 } {
+    #nop  Check for Mob, get new if necessary;
+    #send {};
+    #regexp {$cur_mob} {"0"} {
+      #if {$inArena == 1 && $runArena == 1} {
+        #send {ri g};
+        #send {};
+        #var physTick 6
+      }
+    } {#nop}
+  }
+}
+
+#nop ---------------------------------------------------------------------------
+#nop --- Auto-combat management
+#nop --- 1) Re-engage combat when attacked
+#nop --- 2) Re-engage combat when entering arena
+#nop --- 3) Dis-engage combat when entering town
+#nop ---------------------------------------------------------------------------
+#var combatOff 0
+#alias {co} {#var combatOff 1};
+#alias {con} {#var combatOff 0};
+#act {The %1 attacked you, but} {#var combatOff 0};
+#act {The %1 attacked you } {#var combatOff 0};
+#act {You're in the arena} {#var combatOff 0; #var inArena 1};
+#act {You're in the north plaza} {#var combatOff 1};
+#act {You're in the temple} {#var combatOff 1};
+#act {You're in the south plaza} {#var combatOff 1};
+#nop ---------------------------------------------------------------------------
+
+#act {^Your attack hit} {#var physTick 15};
+#act {^Your skillful attack} {#var physTick 15};
+#act {^Your attack missed} {#var physTick 15};
+#act {^Sorry, you don't see} {#var cur_mob "0"}
+
+#nop #send {c teka $cur_mob};
+
+#alias {run_combat} {
+  #nop  Check for Mob, not necessary in general cause of the health checks
+  #nop #send {};
+  #nop #while {$canAttack == 1} { };
+  #nop #act {^You are still physically exhausted} {#nop};
+
+  #if { $ph < 80 && $physTick == 0} {
+    leave_arena
+  };
+
+  #if { $combatOff == 0 } {
+    #if { $physTick == 0 } {
+      #regexp {$cur_mob}  {"0"} { #nop } {
+        #6 {a $cur_mob}
+      }
+    }
+  }
+};
+
+#nop #tick {health} {health_check} {4}
+#tick {arena} {arena_check} {4}
+#tick {combat} {run_combat} {1}
+#alias {gk} {#class general kill}
+
+#var spellTick 0
+#nop kamotu succeed
+#act {You intoned the spell for %1 which healed %2 damage!} {
+  #var spellTick 15
+}
+
+#var physTick 0
+#tick {checkTick} {
+  #if { $spellTick > 0 } {
+    #math spellTick {$spellTick - 1}
+  }
+  #if { $physTick > 0 } {
+    #math physTick {$physTick - 1}
+  }
+} {1}
+
+#act {Sorry, you don't see %1 nearby.} {gr;st;#var cur_mob "0";}
+
+#class general close
