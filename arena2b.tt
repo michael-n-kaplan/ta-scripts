@@ -1,0 +1,49 @@
+#var TRUE 0
+#var FALSE 1
+
+#var lastCommandOK $TRUE
+
+#class movement kill
+#class movement open
+
+#act {Sorry, there's no exit in that direction.} {#nop}
+#act {Sorry, you'll have to rest a while before you can move.} {
+  #var moveOK $FALSE;
+}
+
+#act {In your haste, you trip and fall!} {
+  #var moveOK $FALSE;
+}
+
+#act {You must rest a moment before proceeding} {
+  #var lastCommandOK $FALSE;
+}
+
+#alias setup_path {
+  #list mpath create nw n n w {buy healing} e n d {de 100} u s ne {buy meal} {buy drink} sw s s se;
+  #var next_step 1;
+}
+
+#alias test_result {
+   #if {$moveOK == $FALSE || $lastCommandOK == $FALSE} {
+     #echo {move or last command failed, rerun};
+     #delay {movePause} {runpath} {.75};
+   } { 
+     #math next_step {$next_step + 1};
+     #delay {movePause} {runpath} {.1}
+   }
+}
+
+#alias runpath {
+  #list mpath size path_len;
+  #if {$next_step > $path_len} { #nop } {
+    #list mpath get $next_step step;
+    #var moveOK $TRUE;
+    #var lastCommandOK $TRUE;
+    #send $step;
+    #delay {waitMove} {test_result;} {.5};
+  };
+  #var heal $FALSE;
+}
+
+#class movement close

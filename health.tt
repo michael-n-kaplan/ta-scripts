@@ -2,6 +2,12 @@
 #class {health} {open}
 #unsplit
 
+#act {The waterskin is empty} {#end}
+#act {You don't seem to have one of those} {#end}
+#act {A %1 appears in a puff of reddish smoke} {gr;st;}
+#act {%1 is asking to join your group.} {add %1}
+#act {The %1 falls to the ground lifeless!} {gr;st;#var cur_mob "0";;}
+
 #nop **************************************************************************
 #nop Track health stats
 #nop **************************************************************************

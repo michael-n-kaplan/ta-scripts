@@ -46,7 +46,7 @@
 #nop Use: #unact {%*} to kill all actions
 
 #nop might be a or an, might be a comma after mob
-#act {You're thirsty.} {drink wat;drink barrel}
+#act {You're thirsty.} {drink wat}
 #act {You're hungry.} {eat ration}
 #act {There is a%? %w%? %*here.} { #var cur_mob %2}
 #nop strip last characters of multy-mobs to account for es / ies
@@ -152,7 +152,5 @@
     #math physTick {$physTick - 1}
   }
 } {1}
-
-#act {The %1 falls to the ground lifeless!} {#var cur_mob "0"}
 
 #class general close
