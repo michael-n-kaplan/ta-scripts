@@ -4,3 +4,23 @@ this project
 
 to reload map:
   #map read ta.map 
+
+netcat (as a server) for testing:
+  nc -k -l 9090
+
+#delay --> creates a delay object which executes in the specified amount of time, and then returns immediately!
+  -- using #delay in a foreach does not delay the next steps, but rather creates
+     multiple delay objects that will all execute at about the same time
+
+
+Result:
+  can't use while (since can't add a delay between actions), 
+  instead, try action, and on failure continue, set a delay to
+    call same action again (tail recurse)
+
+Current scripting:
+  #cursor echo on
+  #read arena2b.tt
+  #read <char>.tt
+  #read health.tt
+  ra
