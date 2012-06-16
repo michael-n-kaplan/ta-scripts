@@ -1,0 +1,35 @@
+#var spell_queue {}
+
+#action {success}
+{
+  next_spell
+}
+
+#act {failure}
+{
+  repeat_spell
+}
+
+#alias {cast}
+{
+  #list spell_queue add %1;
+  #if {&spell_queue[] == 1}
+  {
+    repeat_spell
+  }
+}
+
+#alias {repeat_spell}
+{
+  cast $spell_queue[1]
+}
+
+#alias {next_spell}
+{
+  #list spell_queue delete 1;
+
+  #if {&spell_queue[] > 0}
+  {
+    repeat_spell
+   }
+}
