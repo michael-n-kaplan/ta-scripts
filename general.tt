@@ -116,7 +116,8 @@
 #act {^Your attack hit} {#var physTick 15};
 #act {^Your skillful attack} {#var physTick 15};
 #act {^Your attack missed} {#var physTick 15};
-#act {^Sorry, you don't see} {#var cur_mob "0"}
+#act {^Sorry, you don't see} {#var cur_mob "0"};
+#act {dodged your attack} { #var physTick 15 }
 
 #alias {run_combat} {
   #nop  Check for Mob, not necessary in general cause of the health checks
