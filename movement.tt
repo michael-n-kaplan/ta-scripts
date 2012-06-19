@@ -75,7 +75,7 @@
      #math next_step {$next_step + 1};
      #delay {movePause} {runpath} {.1}
    }
-}
+};
 
 #alias runpath {
   #list mpath size path_len;
@@ -86,41 +86,18 @@
     #send $step;
     #delay {waitMove} {test_result;} {.3};
   }
+};
+
+#alias t1food {
+  #list mpath create w ne {buy meal} {buy drink} sw e;
+  #var next_step 1;
+  runpath
+};
+
+#alias t1heal {
+  #list mpath create w w {buy healing} e e;
+  #var next_step 1;
+  runpath
 }
-
-#function {trymove}
-{
-  #echo {called do move};
-  #var dir %1;
-  #echo {Current dir: $dir};
-  #var moveOK $FALSE;
-
-  #var moveOK $TRUE;
-  #var lastCommandOK $TRUE;
-  #send $dir;
-
-  #if {$moveOK == $FALSE || $lastCommandOK == $FALSE} {
-    #delay {movePause} {@trymove{%1}} {.75}
-  };
-};
-
-
-#function {domove}
-{
-  #echo {called do move};
-  #var dir %1;
-  #echo {Current dir: $dir};
-  #var moveOK $FALSE;
-  #while {$moveOK == $FALSE || $lastCommandOK == $FALSE} {
-    #send $dir;
-    #var moveOK $TRUE;
-    #var lastCommandOK $TRUE;
-    #delay {movePause} {#nop} {.75}
-  }
-};
-
-#nop #foreach {nop;sop;nop;sop;nop;sop} {name} {
-#nop   #delay {0.75} {say Hello $name!}
-#nop }
 
 #class movement close
