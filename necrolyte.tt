@@ -85,7 +85,7 @@
 #alias {arena_check} 
 {
   #nop  Check Health, (requires health.tt active) leave if low;
-  #if { $ph > 80 } {
+  #if { $ph > 60 } {
     #nop  Check for Mob, get new if necessary;
     #send {};
     #regexp {$cur_mob} {"0"} {
@@ -95,8 +95,10 @@
         #var physTick 6
       }
     } {
-      t1heal;st;
+      #nop
     }
+  } { 
+    t1heal;st;
   }
 }
 
