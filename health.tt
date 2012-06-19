@@ -2,6 +2,8 @@
 #class {health} {open}
 #unsplit
 
+#act {enters the arena through the dungeon gate} { #send {} }
+
 #act {The waterskin is empty} {#end}
 #act {You don't seem to have one of those} {#end}
 #act {A %1 appears in a puff of reddish smoke} {gr;st;}

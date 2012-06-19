@@ -84,7 +84,7 @@
     #var moveOK $TRUE;
     #var lastCommandOK $TRUE;
     #send $step;
-    #delay {waitMove} {test_result;} {.3};
+    #delay {waitMove} {test_result;} {.5};
   }
 };
 

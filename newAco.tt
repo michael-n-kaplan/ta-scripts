@@ -1,15 +1,5 @@
 #class general kill
 #class general open
-#nop {
- REQUIRES: health.tt
- -- TODO: note what global variables / aliases from health.tt this script relies on
- REQUIRES: movement.tt
- -- t1heal
- -- t1food
-}
-
-
-
 #nop TODO: msg when capped exp and either auto-train or stop / log
 #nop TODO: no message on movement except potential room descr change
 #nop   this message shows up with or w/o mobs in room
@@ -55,22 +45,21 @@
 
 #nop Use: #unact {%*} to kill all actions
 
+#var needFood $FALSE
+
 #nop might be a or an, might be a comma after mob
 #act {You're thirsty.} { t1food }
 #act {You're hungry.} { t1food }
-#nop #act {There is nobody here.} { #var cur_mob "0"}
 #act {There is a%? %w%? %*here.} { #var cur_mob %2}
 #nop strip last characters of multy-mobs to account for es / ies
 #nop thos letter will prevent attacks
 #act {There are %w %w%?%?%? %*here.} { #var cur_mob %2}
+#act {There is nobody here.} { #var cur_mob "0"}
 
 #alias {health_check}
 {
-  #if { $ph < 70 && $cur_mana > 40 } {
-    #send {cast kusamotu Player};
-  }
-  #if { $ph < 90 && $cur_mana > 30 } {
-    #send {cast gimotu Player};
+  #if { $ph < 90 && $cur_mana > 0 } {
+    #send {cast motu stralth};
   }
 }
 
@@ -85,7 +74,7 @@
 #alias {arena_check} 
 {
   #nop  Check Health, (requires health.tt active) leave if low;
-  #if { $ph > 80 } {
+  #if { $ph > 89 && $cur_mana > 0 } {
     #nop  Check for Mob, get new if necessary;
     #send {};
     #regexp {$cur_mob} {"0"} {
@@ -94,9 +83,7 @@
         #send {};
         #var physTick 6
       }
-    } {
-      t1heal;st;
-    }
+    } {#nop}
   }
 }
 
@@ -119,9 +106,8 @@
 #act {^Your attack hit} {#var physTick 15};
 #act {^Your skillful attack} {#var physTick 15};
 #act {^Your attack missed} {#var physTick 15};
-#act {^Sorry, you don't see} {#var cur_mob "0"}
-
-#act {dodged your attack} {#var physTick 15}
+#act {^Sorry, you don't see} {#var cur_mob "0"};
+#act {dodged your attack} { #var physTick 15 }
 
 #nop #send {c teka $cur_mob};
 
@@ -138,8 +124,7 @@
 
     #if { $physTick == 0 } {
       #regexp {$cur_mob}  {"0"} { #nop } {
-        #3 {a $cur_mob};
-        #send {c teka $cur_mob}
+        #3 {a $cur_mob}
       }
     }
   }
@@ -151,8 +136,22 @@
 #alias {gk} {#class general kill}
 
 #var spellTick 0
+
 #nop kamotu succeed
 #act {You intoned the spell for %1 which healed %2 damage!} {
+  #var spellTick 15
+}
+#nop fadi succeed
+#act {You intoned the spell for %1!} {
+  #var spellTick 15
+}
+#nop motu succeed
+#act {You intoned the spell for %1 which healed %2 damage!} {
+  #var spellTick 15
+}
+
+#nop TODO -- should reset to spell timeout, not hardcode 15
+#act {You confuse the key syllables and the spell fails!} {
   #var spellTick 15
 }
 
@@ -160,12 +159,10 @@
 #tick {checkTick} {
   #if { $spellTick > 0 } {
     #math spellTick {$spellTick - 1}
-  }
+  };
   #if { $physTick > 0 } {
     #math physTick {$physTick - 1}
   }
 } {1}
-
-#act {Sorry, you don't see %1 nearby.} {gr;st;#var cur_mob "0";}
 
 #class general close
