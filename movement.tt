@@ -4,6 +4,9 @@
 #var lastCommandOK $TRUE
 
 #var data 0
+#var receivedOutput $FALSE
+
+#event {RECEIVED OUTPUT} {#var receivedOutput $TRUE}
 
 #alias printa {
   #echo { (alias) data: $data }
@@ -67,6 +70,9 @@
 }
 
 #alias test_result {
+   #if {$receivedOutput == $FALSE} {
+     #delay {waitMove} {test_result;} {.5}
+   } {
    #if {$moveOK == $FALSE || $lastCommandOK == $FALSE} {
      #echo {move or last command failed, rerun};
      #delay {movePause} {runpath} {.75};
@@ -74,6 +80,7 @@
      #echo {all is well};
      #math next_step {$next_step + 1};
      #delay {movePause} {runpath} {.1}
+   }
    }
 };
 
@@ -83,6 +90,7 @@
     #list mpath get $next_step step;
     #var moveOK $TRUE;
     #var lastCommandOK $TRUE;
+    #var receivedOutput $FALSE;
     #send $step;
     #delay {waitMove} {test_result;} {.5};
   }
@@ -95,7 +103,27 @@
 };
 
 #alias t1heal {
-  #list mpath create w w {buy healing} e e;
+  #list mpath create w w {buy healing} e e st;
+  #var next_step 1;
+  runpath
+}
+
+#alias t2heal {
+  #list mpath create s s s s {buy healing} n n n n st;
+  #var next_step 1;
+  runpath
+}
+
+#alias t2food {
+  #list mpath create s s w w sw sw {buy meal} {buy drink} ne ne e e n n st;
+  #var next_step 1;
+  runpath
+}
+
+#alias pathto {
+  #map find %1;
+  #path save forward ppath;
+  #forall {$ppath} {$list mpath add &0};
   #var next_step 1;
   runpath
 }
