@@ -46,6 +46,7 @@
 #nop Use: #unact {%*} to kill all actions
 
 #var needFood $FALSE
+#var expHeal  $TRUE
 
 #nop might be a or an, might be a comma after mob
 #act {You're thirsty.} { t1food }
@@ -58,8 +59,11 @@
 
 #alias {health_check}
 {
-  #if { $ph < 90 && $cur_mana > 0 } {
-    #send {cast motu stralth};
+  #if { $ph < 60 && $cur_mana > 4 } {
+    #send {cast kusamotu stralth};
+  };
+  #elseif { $ph < 80 && $cur_mana > 1 } {
+    #send {cast kamotu stralth};
   }
 }
 
@@ -74,7 +78,7 @@
 #alias {arena_check} 
 {
   #nop  Check Health, (requires health.tt active) leave if low;
-  #if { $ph > 89 && $cur_mana > 0 } {
+  #if { $ph > 79 && $cur_mana > 0 } {
     #nop  Check for Mob, get new if necessary;
     #send {};
     #regexp {$cur_mob} {"0"} {
@@ -84,7 +88,10 @@
         #var physTick 6
       }
     } {#nop}
-  }
+  };
+  #if { $cur_mana > 6 && $expHeal == $TRUE } {
+    #send {c motu stralth}
+  } { #nop }
 }
 
 #nop ---------------------------------------------------------------------------
@@ -124,7 +131,7 @@
 
     #if { $physTick == 0 } {
       #regexp {$cur_mob}  {"0"} { #nop } {
-        #3 {a $cur_mob}
+        #5 {a $cur_mob}
       }
     }
   }
@@ -164,5 +171,11 @@
     #math physTick {$physTick - 1}
   }
 } {1}
+
+#tick {abort} {
+  #if { $ph < 20 } {
+    #end
+  } { #nop }
+} { 6 }
 
 #class general close
