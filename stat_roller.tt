@@ -9,11 +9,11 @@
 #nop 
 #nop   Goblin Druid (max: 19, 20, 18, 20, 26, 17, 24)
 #nop got: 
-#var desired_int 16
+#var desired_int 17
 #var desired_kno 13
-#var desired_phy 15
-#var desired_sta 16
-#var desired_agi 22
+#var desired_phy 16
+#var desired_sta 18
+#var desired_agi 25
 #var desired_cha 5
 #var desired_vit 20
 #nop   Goblin Hunter (max: 16, 16, 21, 24, 29, 14, 34)
@@ -107,9 +107,10 @@
   }; 
   #else 
   {
-     #echo {stats achieved -- took: $tries tries}
-     #var tries 0
-     #class reroll kill
+     #echo {stats achieved -- took: $tries tries};
+     #var tries 0;
+     #nop #class reroll kill;
+     #end;
   }
 }
 
