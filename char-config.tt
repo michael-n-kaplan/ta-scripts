@@ -1,0 +1,11 @@
+#var USERNAME {}
+#var PASSWORD {}
+#read reconnect.tt
+#ses bla <> <>
+  #delay {afterlogin} {
+  #read health.tt;
+  #read druid.tt;
+  #read movement.tt;
+  #cursor echo on;
+  ra
+} { 7 }
