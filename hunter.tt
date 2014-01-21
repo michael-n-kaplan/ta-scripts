@@ -1,49 +1,5 @@
 #class general kill
 #class general open
-#nop TODO: msg when capped exp and either auto-train or stop / log
-#nop TODO: no message on movement except potential room descr change
-#nop   this message shows up with or w/o mobs in room
-#nop Messages:
-#nop    "A spiked trap catches your foot and pain shoots up your leg!"
-#nop    "Player is here" (player present)
-#nop    "You intoned the spell for Player which healed 13 damage!"
-#nop    ie "There are two cyclopes"
-#nop    ie "There is a cyclops"
-
-#nop TODO: add ticker time left to promtbar in better resolution
-#nop TODO: use "gr" to track Ready state (for movement)
-#nop TODO: separate tickers for combat / casting
-#nop TODO: smart tickers for multi-round spells
-#nop TODO: add auto-heal for able classes
-#nop TODO: add exp tracking (hourly rate, exp /hit, etc)
-#nop TODO: serialize tracking to db
-#nop TODO: add walking (looping) scripts
-#nop #act {gold drop} {#send g g}
-#nop TODO: add monster chart to not attack friendlies / players
-#nop TODO: add monster difficulty (to run from too tough)
-#nop TODO: track monster dmg potential and hp range
-#nop TODO: track mob movement "A %1 has just arrived from " into room
-#nop TODO: track move movement to follow while scripting
-#nop    "The troll has just gone downward"
-#nop    "The troll has just gone to the south"
-#nop TODO: auto-heal group
-#nop TODO: more proper eating / drinking responses 
-#nop   "You're hungry." "You're thirsty."
-#nop   Check for food / drink in inventory, use what you have
-#nop     ration / preserved ration, waterskin / barrel
-#nop   Cast spell if avail (druid)
-#nop   Request spell if avail (party with druid)
-#nop   Hunt if no food (hunter only)
-#nop   Buy food if possible (in town, can get to town easy, etc)
-#nop   if no other option, hang up
-#nop TODO: add room attacking for spell-casters (no high lvl spell casters avail yet)
-#nop TODO: handle falling, "In your haste, you trip and fall!"
-#nop TODO: handle auto-gather items
-#nop TODO: handle auto-deposit gold
-#nop TODO: acolyte follow and heal script (no attacking), for PL
-#nop TODO: sorc enhance script
-
-#nop Use: #unact {%*} to kill all actions
 
 #nop might be a or an, might be a comma after mob
 #act {You're thirsty.} {drink wat}
