@@ -124,3 +124,65 @@
 #act {Encumberance:} {check_reroll}
 
 #class reroll close
+
+#nop {
+List of Max Stats for Every Possible Character
+----------------------------------------------
+
+Elven Warrior - Int: 19 Kno: 21 Phy: 19 Sta: 19 Agil: 22 Cha: 17 Vit: 33
+Dwarven Warrior - Int: 17 Kno: 18 Phy: 24 Sta: 23 Agil: 20 Cha: 15 Vit: 34
+Gnomish Warrior - Int: 17 Kno: 19 Phy: 23 Sta: 23 Agil: 21 Cha: 14 Vit: 34
+Human Warrior - Int: 18 Kno: 18 Phy: 22 Sta: 22 Agil: 21 Cha: 16 Vit: 34
+Goblin Warrior - Int: 16 Kno: 16 Phy: 22 Sta: 24 Agil: 29 Cha: 13 Vit: 34
+Half-Ogre Warrior - Int: 14 Kno: 14 Phy: 30 Sta: 30 Agil: 17 Cha: 12 Vit: 36
+
+Elven Sorceror - Int: 22 Kno: 25 Phy: 15 Sta: 15 Agil: 19 Cha: 21 Vit: 23
+Dwarven Sorceror - Int: 20 Kno: 22 Phy: 20 Sta: 19 Agil: 17 Cha: 19 Vit: 23
+Gnomish Sorceror - Int: 20 Kno: 23 Phy: 19 Sta: 19 Agil: 18 Cha: 18 Vit: 23
+Human Sorceror - Int: 21 Kno: 22 Phy: 18 Sta: 18 Agil: 18 Cha: 20 Vit: 23
+Goblin Sorceror - Int: 19 Kno: 20 Phy: 18 Sta: 20 Agil: 26 Cha: 17 Vit: 23
+Half-Ogre Sorceror - Int: 17 Kno: 18 Phy: 26 Sta: 26 Agil: 14 Cha: 16 Vit: 24
+
+Elven Acolyte - Int: 22 Kno: 24 Phy: 15 Sta: 18 Agil: 19 Cha: 19 Vit: 28
+Dwarven Acolyte - Int: 20 Kno: 21 Phy: 20 Sta: 22 Agil: 17 Cha: 17 Vit: 29
+Gnomish Acolyte - Int: 20 Kno: 22 Phy: 19 Sta: 22 Agil: 18 Cha: 16 Vit: 29
+Human Acolyte - Int: 21 Kno: 21 Phy: 18 Sta: 21 Agil: 18 Cha: 18 Vit: 29
+Goblin Acolyte - Int: 19 Kno: 19 Phy: 18 Sta: 23 Agil: 26 Cha: 15 Vit: 29
+Half-Ogre Acolyte - Int: 17 Kno: 17 Phy: 26 Sta: 29 Agil: 14 Cha: 14 Vit: 30
+
+Elven Rogue - Int: 19 Kno: 23 Phy: 18 Sta: 17 Agil: 23 Cha: 17 Vit: 28
+Dwarven Rogue - Int: 17 Kno: 20 Phy: 23 Sta: 21 Agil: 21 Cha: 15 Vit: 29
+Gnomish Rogue - Int: 17 Kno: 21 Phy: 22 Sta: 21 Agil: 22 Cha: 14 Vit: 29
+Human Rogue - Int: 18 Kno: 20 Phy: 21 Sta: 20 Agil: 22 Cha: 16 Vit: 29
+Goblin Rogue - Int: 16 Kno: 18 Phy: 21 Sta: 22 Agil: 30 Cha: 13 Vit: 29
+Half-Ogre Rogue - Int: 14 Kno: 16 Phy: 29 Sta: 28 Agil: 18 Cha: 12 Vit: 30
+
+Elven Hunter - Int: 19 Kno: 21 Phy: 18 Sta: 19 Agil: 22 Cha: 18 Vit: 33
+Dwarven Hunter - Int: 17 Kno: 18 Phy: 23 Sta: 23 Agil: 20 Cha: 16 Vit: 34
+Gnomish Hunter - Int: 17 Kno: 19 Phy: 22 Sta: 23 Agil: 21 Cha: 15 Vit: 34
+Human Hunter - Int: 18 Kno: 18 Phy: 21 Sta: 22 Agil: 21 Cha: 17 Vit: 34
+Goblin Hunter - Int: 16 Kno: 16 Phy: 21 Sta: 24 Agil: 29 Cha: 14 Vit: 34
+Half-Ogre Hunter - Int: 14 Kno: 14 Phy: 29 Sta: 30 Agil: 17 Cha: 13 Vit: 36
+
+Elven Druid - Int: 22 Kno: 25 Phy: 15 Sta: 15 Agil: 19 Cha: 21 Vit: 23
+Dwarven Druid - Int: 20 Kno: 22 Phy: 20 Sta: 19 Agil: 17 Cha: 19 Vit: 23
+Gnomish Druid - Int: 20 Kno: 23 Phy: 19 Sta: 19 Agil: 18 Cha: 18 Vit: 23
+Human Druid - Int: 21 Kno: 22 Phy: 18 Sta: 18 Agil: 18 Cha: 20 Vit: 23
+Goblin Druid - Int: 19 Kno: 20 Phy: 18 Sta: 20 Agil: 26 Cha: 17 Vit: 24
+Half-Ogre Druid - Int: 17 Kno: 18 Phy: 26 Sta: 26 Agil: 14 Cha: 16 Vit: 25
+
+Elven Archer -  Int: 19 Kno: 23 Phy: 17 Sta: 17 Agil: 22 Cha: 19 Vit: 33
+Dwarven Archer -  Int: 17 Kno: 20 Phy: 22 Sta: 21 Agil: 20 Cha: 17 Vit: 34
+Gnomish Archer -  Int: 17 Kno: 21 Phy: 21 Sta: 21 Agil: 21 Cha: 16 Vit: 34
+Human Archer -  Int: 18 Kno: 20 Phy: 20 Sta: 20 Agil: 21 Cha: 18 Vit: 34
+Goblin Archer -  Int: 16 Kno: 18 Phy: 20 Sta: 22 Agil: 29 Cha: 15 Vit: 34
+Half-Ogre Archer -  Int: 14 Kno: 16 Phy: 28 Sta: 28 Agil: 17 Cha: 14 Vit: 35
+
+Elven Necrolyte - Int: 22 Kno: 25 Phy: 15 Sta: 15 Agil: 19 Cha: 21 Vit: 22
+Dwarven Necrolyte - Int: 20 Kno: 22 Phy: 20 Sta: 19 Agil: 17 Cha: 19 Vit: 23
+Gnomish Necrolyte - Int: 20 Kno: 23 Phy: 19 Sta: 19 Agil: 18 Cha: 18 Vit: 23
+Human Necrolyte - Int: 21 Kno: 22 Phy: 18 Sta: 18 Agil: 18 Cha: 20 Vit: 23
+Goblin Necrolyte - Int: 19 Kno: 20 Phy: 18 Sta: 20 Agil: 26 Cha: 17 Vit: 24
+Half-Ogre Necrolyte - Int: 17 Kno: 18 Phy: 26 Sta: 26 Agil: 14 Cha: 16 Vit: 25
+
+}
