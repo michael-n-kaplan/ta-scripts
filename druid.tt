@@ -57,7 +57,7 @@
 #alias {health_check}
 {
   #if { $ph < 90 && $cur_mana > 0 } {
-    #send {cast fadi Player};
+    #send {cast fadi $self};
   }
 }
 
