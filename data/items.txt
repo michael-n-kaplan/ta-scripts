@@ -1,0 +1,22 @@
+Magic Item List
+---------------
+
++====================+===========================+=======+
+| Magic Item         | Description               | Price |
++--------------------+---------------------------+-------+
+| Manastone          | Increases your mana       |   10  |
+| Glowstone          | Magical light source      |   50  |
+| Heartstone         | Returns you to the temple |  100  |
++--------------------+---------------------------+-------+
+| Horn of frost      | Horn of frost             |   50  |
+| Wand of lightning  | Wand of lightning         |  100  |
+| Rod of flame       | Rod of flame              |  200  |
++--------------------+---------------------------+-------+
+| Rue potion         | Minor healing             |    5  |
+| Amaranth potion    | Healing                   |   10  |
+| Anemone potion     | Greater healing           |   25  |
+| Verbena potion     | Poison cure               |   10  |
+| Yarrow potion      | Mana restore              |   10  |
+| Rowan potion       | Strength                  |   10  |
+| Hyssop potion      | Agility                   |   10  |
++====================+===========================+=======+

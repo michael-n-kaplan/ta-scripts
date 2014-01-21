@@ -1,0 +1,105 @@
+Spells List
+-----------
+
++=================================================+
+||                Acolyte Spells                 ||
++==============+=======================+====+=====+
+|Spell         |Translation            |Mana|Price|
++--------------+-----------------------+----+-----+
+|Motu          |Minor Mending          |  1 |   5 |
+|Kamotu        |Mending                |  2 |  20 |
+|Tami          |Minor Energy Bolt      |  2 |  25 |
+|Dobudani      |Poison Drain           |  3 |  30 |
+|Gimotu        |Greater Mending        |  4 |  35 |
+|Motumaru      |Minor Mending Mist     |  4 |  40 |
+|Katami        |Energy Bolt            |  4 |  50 |
+|Dobudanimaru  |Poison Drain Mist      |  5 |  60 |
+|Kusamotu      |Deific Mending         |  5 |  75 |
+|Kamotumaru    |Mending Mist           |  5 |  80 |
+|Gitami        |Greater Energy Bolt    |  5 | 100 |
+|Takumi        |Mobilize               |  6 | 120 |
+|Kusatami      |Deific Energy Bolt     |  6 | 150 |
+|Gimotumaru    |Greater Mending Mist   |  7 | 180 |
+|Ganazi        |Restoration            |  8 | 220 |
+|Kusamotumaru  |Deific Mending Mist    |  9 | 270 |
++==============+=======================+====+=====+
+
+
++=================================================+
+||                Druid Spells                   ||
++==============+=======================+====+=====+
+|Spell         |Translation            |Mana|Price|
++--------------+-----------------------+----+-----+
+|Pakaza        |Thorn Dart             |  1 |  10 |
+|Fadi          |Regeneration           |  1 |  15 |
+|Toraza        |Stone Dart             |  2 |  15 |
+|Kotari        |Sustenance             |  2 |  20 |
+|Modoki        |Lightning              |  3 |  30 |
+|Novadidan     |Unseen Chain           |  4 |  35 |
+|Sivama        |Wind Stream            |  4 |  50 |
+|Kotarimaru    |Sustaining Mist        |  5 |  60 |
+|Pakazuma      |Thorn Shower           |  5 |  75 |
+|Torazuma      |Stone Shower           |  5 | 100 |
+|Modokidan     |Chain Lightning        |  6 | 125 |
+|Sivadaku      |Wind Storm             |  7 | 150 |
+|Modokidaku    |Lightning Storm        |  8 | 180 |
+|Toradaku      |Stone Storm            |  9 | 220 |
++==============+=======================+====+=====+
+
+
++=================================================+
+||                Necrolyte Spells               ||
++==============+=======================+====+=====+
+|Spell         |Translation            |Mana|Price|
++--------------+-----------------------+----+-----+
+|Teka          |Minor Injury           |  1 |  10 |
+|Dobuza        |Poison Dart            |  2 |  12 |
+|Kamaza        |Mana Dart              |  2 |  15 |
+|Yilazi        |Life Steal             |  3 |  18 |
+|Kateka        |Injury                 |  3 |  20 |
+|Dakima        |Acid Stream            |  4 |  30 |
+|Tamikar       |Energy Burst           |  4 |  50 |
+|Giteka        |Greater Injury         |  5 |  75 |
+|Dobumaru      |Poison Mist            |  5 |  90 |
+|Kamazadaku    |Mana Dart Storm        |  5 | 120 |
+|Timimaru      |Fear Mist              |  6 | 135 |
+|Kusateka      |Deific Injury          |  6 | 150 |
+|Dakidaku      |Acid Storm             |  7 | 225 |
+|Dobudakidaku  |Poison Acid Storm      |  8 | 325 |
++==============+=======================+====+=====+
+
+
++=================================================+
+||                Sorceror Spells                ||
++==============+=======================+====+=====+
+|Spell         |Translation            |Mana|Price|
++--------------+-----------------------+----+-----+
+|Komiza        |Ice Dart               |  1 |  10 |
+|Toduza        |Flame Dart             |  2 |  20 |
+|Muda          |Minor Summons          |  2 |  25 |
+|Yari          |Protection             |  3 |  28 |
+|Komizuma      |Ice Shower             |  3 |  30 |
+|Rotok         |Strength Boost         |  3 |  35 |
+|Tsutok        |Stamina Boost          |  3 |  35 |
+|Igatok        |Agility Boost          |  3 |  35 |
+|Toduzuma      |Flame Shower           |  4 |  50 |
+|Rodani        |Strength Drain         |  4 |  60 |
+|Tsudani       |Stamina Drain          |  4 |  60 |
+|Igadani       |Agility Drain          |  4 |  60 |
+|Kamuda        |Summons                |  4 |  60 |
+|Komidaku      |Ice Storm              |  5 |  75 |
+|Komizadaku    |Ice Dart Storm         |  5 | 100 |
+|Novadi        |Invisibility           |  5 | 100 |
+|Todukar       |Flame Burst            |  6 | 120 |
+|Yarimaru      |Protective Mist        |  6 | 125 |
+|Gimuda        |Greater Summons        |  6 | 150 |
+|Todudaku      |Flame Storm            |  6 | 200 |
+|Komasidaku    |Elemental Storm        |  7 | 250 |
+|Poratok       |Body Boost             |  7 | 260 |
+|Jinasutok     |Mind Boost             |  7 | 260 |
+|Poradani      |Body Drain             |  8 | 280 |
+|Jinasudani    |Mind Drain             |  8 | 280 |
+|Novadimaru    |Invisibility Mist      |  8 | 300 |
+|Kusamuda      |Deific Summons         |  8 | 300 |
+|Dumoti        |Maelstrom              |  9 | 350 |
++==============+=======================+====+=====+
