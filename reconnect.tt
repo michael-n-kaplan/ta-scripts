@@ -1,3 +1,7 @@
+#nop {
+  messages are configured for arena7.sytes.net as of 2014-01-20
+}
+
 #var TRUE 0
 #var FALSE 1
 
@@ -10,15 +14,16 @@
 #event {SESSION DISCONNECTED} { #var logged_in $FALSE }
 
 
-
 #nop #act {name or type NEW:} 
-#act {Enter your character\'s name or type NEW:} {
+#nop #act {Enter your character\'s name or type NEW:} 
+
+#act {Otherwise enter your User-Id:} {
   #if { $logged_in == $FALSE } {
     #send $USERNAME
   }
 }
 
-#act {Password: } {
+#act {secret decoder ring: } {
   #if { $logged_in == $FALSE } {
      #send {$PASSWORD};
      #var logged_in $TRUE
