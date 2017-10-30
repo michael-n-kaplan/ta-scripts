@@ -1,0 +1,110 @@
+#class messages kill
+#class messages open
+
+#nop {
+  This class is responsible for checking for various messages and setting 
+appropiate environment variables.  No other logic or handling is performed here.
+
+Conversely, no other class will be responsible for handling messages, but rather 
+will process based on the set variables instead.
+}
+
+#alias {terminateProgram} {#end}
+
+#var suppress:status $TRUE
+
+#nop "Booleans"
+#var TRUE 0
+#var FALSE 1
+
+function check_suppress {
+  #if { $suppress:status == $TRUE } {
+    #line gag
+  }
+}
+#nop { 
+  TODO: How to do a generic toggle function to call like:
+    @toogle{suppress:status}
+}
+
+#alias suppress { 
+  #if {$suppress:status == $TRUE } { 
+    #var suppress:status $FALSE
+  }; 
+  else{
+    #var suppress:status $TRUE
+  }
+}
+
+#alias sst {
+  #var supress:status $FALSE;
+  st;
+  #var supress:status $TRUE
+}
+
+#nop HHHHH: status
+#act {Race:         %1} { @check_suppress{}; #var status[race] %1}
+#act {Class:        %1} { @check_suppress{}; #var status[class] %1}
+#act {Intellect:    %1} { @check_suppress{}; #var status[int] %1}
+#act {Knowledge:    %1} { @check_suppress{}; #var status[know] %1}
+#act {Physique:     %1} { @check_suppress{}; #var status[phys] %1}
+#act {Stamina:      %1} { @check_suppress{}; #var status[stam] %1}
+#act {Agility:      %1} { @check_suppress{}; #var status[agil] %1}
+#act {Charisma:     %1} { @check_suppress{}; #var status[char] %1}
+#act {Armor Rating: %1} { @check_suppress{}; #var status[ar] %1 }
+#act {Weapon:       %1} { @check_suppress{}; #var status[weapon] %1}
+#act {Armor:        %1} { @check_suppress{}; #var status[armor] %1}
+#act {Encumberance: %1} { @check_suppress{}; #var status[enc] %1}
+#act {Mana:         %d / %d} 
+{
+  @check_supress{};
+  #var status[cur_mana] %1; 
+  #var status[max_mana] %2;
+  #math status[pm] { $status[cur_mana] * 100 / $status[max_mana] };
+};
+
+#act {Vitality:     %d / %d} 
+{
+  @check_supress{};
+  #var status[cur_health] %1; 
+  #var status[max_health] %2;
+  #math status[ph] { $status[cur_health] * 100 / $status[max_health] };
+};
+
+
+#nop Hungry/Thirst
+#act {You're thirsty.} {#var status:thirsty $TRUE}
+#act {You're hungry.} {#var  status:hungry $TRUE}
+#act {The waterskin is empty} {#var status:emptyWaterskin $TRUE}
+#act {You don't seem to have one of those} {#var status:noRations $TRUE}
+
+#act {A %1 appears in a puff of reddish smoke} {gr;st;}
+#act {%1 is asking to join your group.} {add %1}
+#act {The %1 falls to the ground lifeless!} {gr;st;#var cur_mob "0";;}
+
+
+#nop Waiting on text
+#var receivedOutput $FALSE
+#event {RECEIVED OUTPUT} {#var receivedOutput $TRUE}
+
+#nop TODO: maybe add logic here (shh, I know) to reset 'receivedOutput' after
+#nop       processing 
+
+#nop HHHHH: Movement / command based
+#nop TODO: abort on below?
+#act {Sorry, there's no exit in that direction.} {#nop}
+#act {Sorry, you'll have to rest a while before you can move.} {
+  #var status:moveOK $FALSE;
+  #echo {Tired - Move Failed!}
+}
+
+#act {In your haste, you trip and fall!} {
+  #var status:moveOK $FALSE;
+  #echo {Hasty - Move Failed!}
+}
+
+#act {You must rest a moment before proceeding} {
+  #var status:lastCommandOK $FALSE;
+  #echo {Command Overflow - Move Failed!}
+}
+

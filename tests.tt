@@ -1,0 +1,23 @@
+#nop { test to run }
+
+#nop {test:messages.tt }
+#nop { Check that status:thirsty is not set }
+#showme {You're thirsty.}
+#nop { Check that status:thirsty is true. }
+
+#nop { 
+- check var suppress:status == false
+- check var ar is unset
+- showme {Armor Rating: 10}
+- check (how?) line was echoed to screen - VISUAL
+- check var ar is 10
+- RESET: unset ar variable
+- set suppress:status == true
+- showme {Armor Rating: 15}
+- check line was NOT echoed to screen - VISUAL
+- check var is is 15
+}
+
+#nop { 
+  META_PROGRAMMING:
+    -- 
