@@ -1,12 +1,4 @@
-#var TRUE 0
-#var FALSE 1
-
-#var lastCommandOK $TRUE
-
 #var data 0
-#var receivedOutput $FALSE
-
-#event {RECEIVED OUTPUT} {#var receivedOutput $TRUE}
 
 #alias printa {
   #echo { (alias) data: $data }
@@ -32,23 +24,23 @@
 #nop abort on below?
 #act {Sorry, there's no exit in that direction.} {#nop}
 #act {Sorry, you'll have to rest a while before you can move.} {
-  #var moveOK $FALSE;
+  #var {state[moveOK]} $FALSE;
   #echo {Tired - Move Failed!}
 }
 
 #act {In your haste, you trip and fall!} {
-  #var moveOK $FALSE;
+  #var {state[moveOK]} $FALSE;
   #echo {Hasty - Move Failed!}
 }
 
 #act {You must rest a moment before proceeding} {
-  #var lastCommandOK $FALSE;
+  #var {state[lastCommandOK]} $FALSE;
   #echo {Command Overflow - Move Failed!}
 }
 
 #NOP 2019-12-28 -- added for failed movement on arcticzone bbs
 #act {You are still physically exhausted from your previous activities!} {
-  #var lastCommandOK $FALSE
+  #var {state[lastCommandOK]} $FALSE
 }
 
 #alias dn {#var res @domove{{n}}; #echo {res: %w} {res}}

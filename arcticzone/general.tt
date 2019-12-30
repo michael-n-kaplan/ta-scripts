@@ -46,8 +46,7 @@
 #nop Use: #unact {%*} to kill all actions
 
 #nop might be a or an, might be a comma after mob
-#act {You're thirsty.} {drink wat}
-#act {You're hungry.} {eat ration}
+
 #act {There is a%? %w%? %*here.} { #var cur_mob %2}
 #nop strip last characters of multy-mobs to account for es / ies
 #nop thos letter will prevent attacks
@@ -57,38 +56,21 @@
 #alias {health_check}
 {
   #send he;
-  #if { $ph < 80 && $cur_mana > 0 } {
-    #send {cast motu raz};
+  #if { $state[hpp] < 80 && $state[curMP] > $config[mpCureThreshold] && $config[stCure] != {}} {
+    #send {cast $config[stCure] $config[charName]};
   }
 }
 
-#alias {leave_arena} {
-  #send w;
-  #send w;
-  #send {buy healing};
-  #send e;
-  #send e;
-}
-
-#nop TRUE/FALSE also defined in movement.tt, should make a general lib of globals
-#var TRUE 0
-#var FALSE 1
-
-#var runArena 0
-#var fleeing $FALSE
-#alias ra { #var runArena 1;arena_check }
-#alias ka {#var runArena 0}
-#var inArena 0
+#alias ra { #var {state[runArena]} $TRUE;arena_check }
+#alias ka { #var {state[runArena]} $FALSE }
 #act {^You're in the %1.$} {
-  #regexp {%1} {arena} {#var inArena 1} {#var inArena 0}
+  #regexp {%1} {arena} {#var {state[inArena]} $TRUE} {#var {state[inArena]} $FALSE}
 }
 
   #nop  Check Health, (requires health.tt active) leave if low;
   #nop 2019-12-28 TODO: When trying to leave arena, disable attacking.  Especially;
   #nop     an issue if someone else if ringing gong and generating more mobs;
 
-
-#var healing $FALSE  
 #alias {arena_check} 
 {
   #echo {Running arena check};

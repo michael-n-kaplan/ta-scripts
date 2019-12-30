@@ -20,12 +20,16 @@ and abilities all get set here.
   {drinkCmd}{drink water}
   {noWaterCmd}{#end}
   {noFoodCmd}{#end}
+  {mpCureThreshold}{1}
+  {charName}{}
 }
 
 #var {state} {
   {fleeing}{$FALSE}
   {noWater}{$FALSE}
   {noFood} {$FALSE}
+  {thirsty}{$FALSE}
+  {hungry}{$FALSE}
   {physTick}{0}
   {spellTick}{0}
   {curHP}{}
@@ -36,6 +40,10 @@ and abilities all get set here.
   {mpp}{}
   {lastCommandOK}{$TRUE}
   {receivedOutput}{$TRUE}
+  {moveOK}{$TRUE}
+  {runArena}{$FALSE}
+  {inArena}{$FALSE}
+  {healing}{$FALSE}
 }
 
 

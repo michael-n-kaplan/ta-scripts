@@ -20,6 +20,9 @@ modifying global state variables.
 #act {Attack ready!} {#var {state[physTick]} 0}
 #act {Spell ready!} {#var {state[spellTick]} 0}
 
+#act {You're thirsty.} {#var {state[thirsty]} {$TRUE}}
+#act {You're hungry.} {#var {state[hungry]} {$TRUE}}
+
 #act {Type 'STATBAR' for a list of statbar options.} {
     #showme {Setting statbar};
     #send {statbar 0 on};
