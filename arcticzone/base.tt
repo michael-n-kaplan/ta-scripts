@@ -34,6 +34,8 @@ and abilities all get set here.
   {maxMP}{}
   {hpp}{}
   {mpp}{}
+  {lastCommandOK}{$TRUE}
+  {receivedOutput}{$TRUE}
 }
 
 

@@ -9,6 +9,8 @@ modifying global state variables.
         if not.
 }
 
+#event {RECEIVED OUTPUT} {#var {config[receivedOutput]} $TRUE}
+
 #nop {person or mob, hit 'enter' to get more info}
 #act {enters the arena through the dungeon gate} { #send {} }
 
