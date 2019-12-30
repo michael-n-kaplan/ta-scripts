@@ -21,3 +21,16 @@
 #nop { 
   META_PROGRAMMING:
     -- 
+}
+
+#var {status} {
+  {fleeing}{false}
+}
+
+#showme $status[fleeing]
+
+#nop {
+  These tests are for base.tt
+}
+
+#if {$config[stCure] != {}} { #showme {FAILED: Default st cure should be empty}} { #showme {OK: default stCure empty}}

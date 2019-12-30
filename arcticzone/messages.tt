@@ -1,0 +1,42 @@
+#class {messages}{kill}
+#class {messages}{open}
+
+#nop {
+    Relies on base.tt to set up config variable.  Reacts to messages by
+modifying global state variables.
+
+  TODO: check to see if base.tt is loaded and generate an error message
+        if not.
+}
+
+#nop {person or mob, hit 'enter' to get more info}
+#act {enters the arena through the dungeon gate} { #send {} }
+
+#act {The waterskin is empty} {#var {state[noWater]} {$TRUE}}
+#act {You don't seem to have one of those} {#var {state[noFood]} {$TRUE}}
+
+#act {Attack ready!} {#var {state[physTick]} 0}
+#act {Spell ready!} {#var {state[spellTick]} 0}
+
+#act {Type 'STATBAR' for a list of statbar options.} {
+    #showme {Setting statbar};
+    #send {statbar 0 on};
+    #send {statbar 1 on};
+    #send {statbar 2 on};
+    #send {statbar 3 on};
+    #send {statbar 4 on};
+    #send {statbar 5 on};
+    #send {statbar 6 on}
+}
+
+#act {HP:%d/%d MA:%d/%d LV:%d EXP:%d PER:%d%% EX:}
+{
+    #var {state[curHP]} {%1};
+    #var {state[curMP]} {%3};
+    #var {state[maxHP]} {%2};
+    #var {state[maxMP]} {%4};
+    #math {state[hpp]} {$state[curHP] * 100 / $state[maxHP]};
+    #math {state[mpp]} {$state[curMP] * 100 / $state[maxMP]}
+};
+
+#class {messages}{close}

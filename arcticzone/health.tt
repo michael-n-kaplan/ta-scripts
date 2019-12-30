@@ -1,0 +1,82 @@
+#class {health} {kill}
+#class {health} {open}
+#unsplit
+
+#act {enters the arena through the dungeon gate} { #send {} }
+
+#act {The waterskin is empty} {#end}
+#act {You don't seem to have one of those} {#end}
+#act {A %1 appears in a puff of reddish smoke} {gr;st;}
+#act {%1 is asking to join your group.} {add %1}
+#act {The %1 falls to the ground lifeless!} {gr;st;#var cur_mob "0";;}
+
+#nop **************************************************************************
+#nop Track health stats
+#nop **************************************************************************
+
+#nop Without the #var after each gag, a lot of extra lines were being printed
+#act {Race:         %1} { #line gag; #var race %1}
+#act {Class:        %1} { #line gag; #var class %1}
+#act {Intellect:    %1} { #line gag; #var int %1}
+#act {Knowledge:    %1} { #line gag; #var know %1}
+#act {Physique:     %1} { #line gag; #var phys %1}
+#act {Stamina:      %1} { #line gag; #var stam %1}
+#act {Agility:      %1} { #line gag; #var agil %1}
+#act {Charisma:     %1} { #line gag; #var char %1}
+#act {Armor Rating: %1} { #line gag; #var ar %1}
+#act {Weapon:       %1} { #line gag; #var weapon %1}
+#act {Armor:        %1} { #line gag; #var armor %1}
+#act {Encumberance: %1} { #line gag; #var enc %1}
+
+#act {Mana:         %d / %d} 
+{
+  #line gag;
+  #var cur_mana %1; 
+  #var max_mana %2;
+  #math pm { $cur_mana * 100 / $max_mana };
+};
+
+#act {Vitality:     %d / %d} 
+{
+  #line gag;
+  #var cur_health %1; 
+  #var max_health %2;
+  #math ph { $cur_health * 100 / $max_health };
+};
+
+#gag {Your group currently consists of:}
+#act {ST:%1]} {#line gag; #var ST %1}
+
+#nop Below action breaks tele-arena
+#gag {^$} 
+
+#nop Having an extra semi-colon at the end of a command list
+#nop cause a return char to be sent to the server.  This led to
+#nop a ton of spam messages
+#gag {^Status:       %1} 
+#nop #act {^Status:       %w} { #var status %1; }
+#gag {^Level:        %d}
+#nop #act {^Level:        %d} { #line gag; #var level %1; }
+#act {^Experience:   %d} { #line gag; #var exp %1}
+#nop #act {^Rune:         %1} { #line gag; #var rune %1; }
+#gag {^Rune:         %1}
+
+#nop #alias refresh_stats { he; ep; }
+#alias refresh_stats { gr; st}
+#nop  Below prompt attempt didn't work because format wasn't being rerun
+#nop #format main_prompt {hp: [%d/%d] (%d%%)  mp: [%d/%d] (%d%%)  exp: %d tick in: %d} {$cur_health} $max_health $ph $cur_mana $max_mana $pm $exp $physTick;
+#nop #prompt {Rune:     } {$main_prompt}
+
+#nop #prompt {Rune:     } {hp: [$cur_health/$max_health] ($ph%%)  mp: [$cur_mana/$max_mana] ($pm%%)  exp: $exp tick in: $physTick};
+
+#nop 1 bar at top, 2 at bottom
+#nop 2019-12-28  Changed to 3 split a the top for newer version of tintin to make prompt work
+#nop    since prompt now defaults to the top, can change to 3 1, or fix prompt command
+#split 3 3
+
+#prompt {Encumberance: } {hp: [$cur_health/$max_health] ($ph%%)  mp: [$cur_mana/$max_mana] ($pm%%)  exp: $exp tick in: $physTick  ST: $ST  Flee: $fleeing} {2};
+
+#ticker {prompt_ticker} {refresh_stats} {8}
+#alias {hk} {#class health kill; #unsplit}
+
+#class {health} {close}

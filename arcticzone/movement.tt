@@ -1,0 +1,136 @@
+#var TRUE 0
+#var FALSE 1
+
+#var lastCommandOK $TRUE
+
+#var data 0
+#var receivedOutput $FALSE
+
+#event {RECEIVED OUTPUT} {#var receivedOutput $TRUE}
+
+#alias printa {
+  #echo { (alias) data: $data }
+}
+
+#function printb {
+  #echo { (function) data: $data }
+}
+
+#alias tt {
+  #var data {base data};
+  #echo {(base) data: $data};
+  #delay {1.5} {printa};
+  #delay {1.5} {@printb{}};
+  #echo {(base) data after delays: $data};
+  #var data {edited data};
+  #echo {(base) data after edit: $data};
+}
+
+#class movement kill
+#class movement open
+
+#nop abort on below?
+#act {Sorry, there's no exit in that direction.} {#nop}
+#act {Sorry, you'll have to rest a while before you can move.} {
+  #var moveOK $FALSE;
+  #echo {Tired - Move Failed!}
+}
+
+#act {In your haste, you trip and fall!} {
+  #var moveOK $FALSE;
+  #echo {Hasty - Move Failed!}
+}
+
+#act {You must rest a moment before proceeding} {
+  #var lastCommandOK $FALSE;
+  #echo {Command Overflow - Move Failed!}
+}
+
+#NOP 2019-12-28 -- added for failed movement on arcticzone bbs
+#act {You are still physically exhausted from your previous activities!} {
+  #var lastCommandOK $FALSE
+}
+
+#alias dn {#var res @domove{{n}}; #echo {res: %w} {res}}
+#alias de {#echo %0}
+
+#nop creating a list like n s n s n s  doesn't work for some reason;
+#nop -- replace those values with nop sop (or other random string), does;
+#nop since semi-colons terminate commands, they were elided from above
+
+#alias mm {
+  #nop #foreach {n;s;n;s;n;s;n;s;n;s;n;s;n;s;n;s;n;s;n;s} {dir} { }
+  #foreach {n;s} {dir} {
+    #nop #delay {pathPause} {#var res @domove{$dir}} {.75};
+    #nop #delay {0.75} {#send $dir};
+    @trymove{$dir};
+  };
+}
+
+#alias setup_path {
+  #nop #list mpath create n s e w ne se nw sw;
+  #nop #list mpath create n s;
+  #list mpath create nw n n w e nw se n d u s s s se;
+  #var next_step 1;
+}
+
+#alias test_result {
+   #if {$receivedOutput == $FALSE} {
+     #delay {waitMove} {test_result;} {.5}
+   } {
+   #if {$moveOK == $FALSE || $lastCommandOK == $FALSE} {
+     #echo {move or last command failed, rerun};
+     #delay {movePause} {runpath} {.75};
+   } { 
+     #echo {all is well};
+     #math next_step {$next_step + 1};
+     #delay {movePause} {runpath} {.1}
+   }
+   }
+};
+
+#alias runpath {
+  #list mpath size path_len;
+  #if {$next_step > $path_len} { #nop } {
+    #list mpath get $next_step step;
+    #var moveOK $TRUE;
+    #var lastCommandOK $TRUE;
+    #var receivedOutput $FALSE;
+    #send $step;
+    #delay {waitMove} {test_result;} {.5};
+  }
+};
+
+#alias t1food {
+  #list mpath create w ne {buy meal} {buy drink} sw e;
+  #var next_step 1;
+  runpath
+};
+
+#alias t1heal {
+  #list mpath create w w {buy healing} e e st;
+  #var next_step 1;
+  runpath
+}
+
+#alias t2heal {
+  #list mpath create s s s s {buy healing} n n n n st;
+  #var next_step 1;
+  runpath
+}
+
+#alias t2food {
+  #list mpath create s s w w sw sw {buy meal} {buy drink} ne ne e e n n st;
+  #var next_step 1;
+  runpath
+}
+
+#alias pathto {
+  #map find %1;
+  #path save forward ppath;
+  #forall {$ppath} {$list mpath add &0};
+  #var next_step 1;
+  runpath
+}
+
+#class movement close

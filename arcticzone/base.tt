@@ -1,0 +1,40 @@
+#class {base} {kill}
+#class {base} {open}
+
+#nop {
+    config is the set of user-modifiable variables to control the 
+execution of the program.  Character specific settings, thresholds, 
+and abilities all get set here.
+}
+
+#var TRUE 0
+#var FALSE 1
+
+#var {config} {
+  {fleePercent} {80}
+  {stCure}{}
+  {aoeCure}{}
+  {stAttSpell}{}
+  {aoeAttSpell}{}
+  {foodCmd}{eat ration}
+  {drinkCmd}{drink water}
+  {noWaterCmd}{#end}
+  {noFoodCmd}{#end}
+}
+
+#var {state} {
+  {fleeing}{$FALSE}
+  {noWater}{$FALSE}
+  {noFood} {$FALSE}
+  {physTick}{0}
+  {spellTick}{0}
+  {curHP}{}
+  {curMP}{}
+  {maxHP}{}
+  {maxMP}{}
+  {hpp}{}
+  {mpp}{}
+}
+
+
+#class {base} {close}
