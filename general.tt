@@ -70,7 +70,12 @@
   #send e;
 }
 
+#nop TRUE/FALSE also defined in movement.tt, should make a general lib of globals
+#var TRUE 0
+#var FALSE 1
+
 #var runArena 0
+#var fleeing $FALSE
 #alias ra { #var runArena 1;arena_check }
 #alias ka {#var runArena 0}
 #var inArena 0
@@ -78,18 +83,29 @@
   #regexp {%1} {arena} {#var inArena 1} {#var inArena 0}
 }
 
+  #nop  Check Health, (requires health.tt active) leave if low;
+  #nop 2019-12-28 TODO: When trying to leave arena, disable attacking.  Especially;
+  #nop     an issue if someone else if ringing gong and generating more mobs;
+
+
+#var healing $FALSE  
 #alias {arena_check} 
 {
-  #nop  Check Health, (requires health.tt active) leave if low;
-  #if { $ph < 80 } {
-    #echo {calling leave_arena}
-    leave_arena
-  }
+  #echo {Running arena check};
+  #if { $ph < 80} {
+    #if {$healing == $FALSE} {
+      #var healing $TRUE;
+      #echo {$ph low, fleeing};
+      #var fleeing $TRUE;
+      #echo {calling t1heal};
+      t1heal
+	}
+  } {#echo {$ph ok, fleeing off};#var fleeing $FALSE;#var healing $FALSE};
 
   #nop  Check for Mob, get new if necessary;
   #send {};
   #regexp {$cur_mob} {"0"} {
-    #if {$inArena == 1 && $runArena == 1} {
+    #if {$inArena == 1 && $runArena == 1 && $fleeing == $FALSE} {
       #send {ri g};
       #send {};
       #var physTick 6
@@ -125,7 +141,7 @@
   #nop #while {$canAttack == 1} { };
   #nop #act {^You are still physically exhausted} {#nop};
 
-  #if { $combatOff == 0 } {
+  #if { $combatOff == 0 && $fleeing == $FALSE} {
     #if { $spellTick == 0 } {
       #nop #send {c teka $cur_mob};
     };
@@ -139,7 +155,7 @@
 };
 
 #nop #tick {health} {health_check} {4}
-#tick {arena} {arena_check} {16}
+#tick {arena} {arena_check} {4}
 #tick {combat} {run_combat} {1}
 #alias {gk} {#class general kill}
 

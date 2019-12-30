@@ -46,6 +46,11 @@
   #echo {Command Overflow - Move Failed!}
 }
 
+#NOP 2019-12-28 -- added for failed movement on arcticzone bbs
+#act {You are still physically exhausted from your previous activities!} {
+  #var lastCommandOK $FALSE
+}
+
 #alias dn {#var res @domove{{n}}; #echo {res: %w} {res}}
 #alias de {#echo %0}
 
