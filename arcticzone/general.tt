@@ -19,7 +19,7 @@
 
 #alias {arena_check} 
 {
-  #echo {Running arena check};
+  #if { $state[paused] == $FALSE} {
   #if { $state[hpp] < $config[fleePercent]} {
     #if {$state[healing] == $FALSE} {
       #var {state[healing]} $TRUE;
@@ -45,6 +45,7 @@
   } {
     #nop
   }
+  }
 }
 
 #nop ---------------------------------------------------------------------------
@@ -65,6 +66,8 @@
 
 
 #alias {run_combat} {
+  #if { $state[paused] == $FALSE} {
+
   #if { $state[thirsty] == $TRUE } {
     #send {$config[drinkCmd]};
 	#var {state[thirsty]} $FALSE 
@@ -86,6 +89,8 @@
         #$config[numAttacks] {a $state[cur_mob]}
       }
     }
+  }
+  
   }
 }
 
