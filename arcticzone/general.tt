@@ -37,7 +37,7 @@
   #nop  Check for Mob, get new if necessary;
   #send {};
   #regexp {$state[cur_mob]} {"0"} {
-    #if {$state[inArena] == $TRUE && $state[runArena] == $TRUE && $state[fleeing] == $FALSE} {
+    #if {$state[inArena] == $TRUE && $state[runArena] == $TRUE && $state[fleeing] == $FALSE && $state[physTick] == 0} {
       #send {ri g};
       #send {};
       #var {state[physTick]} 6
