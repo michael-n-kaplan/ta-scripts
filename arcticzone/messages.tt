@@ -23,8 +23,20 @@ modifying global state variables.
 #act {You're thirsty.} {#var {state[thirsty]} {$TRUE}}
 #act {You're hungry.} {#var {state[hungry]} {$TRUE}}
 
-#act {falls to the ground lifeless} {#var {state[cur_mob]} {0} }
+#act {There is a%? %w%? %*here.} { #var {state[cur_mob]} %2}
+#nop strip last characters of multy-mobs to account for es / ies
+#nop thos letter will prevent attacks
+#act {There are %w %w%?%?%? %*here.} { #var {state[cur_mob]} %2}
+#act {There is nobody here.} { #var {state[cur_mob]} "0"}
+#act {enters the arena through the dungeon gate} { #send {} }
+#act {A %1 appears in a puff of reddish smoke} { #send {}}
+#act {%1 is asking to join your group.} {add %1}
+#act {The %1 falls to the ground lifeless} {#var {state[cur_mob]} "0" }
 #act {From %1: %2} { }
+
+#act {^You're in the %1.$} {
+  #regexp {%1} {arena} {#var {state[inArena]} $TRUE} {#var {state[inArena]} $FALSE}
+}
 
 #act {Type 'STATBAR' for a list of statbar options.} {
     #showme {Setting statbar};

@@ -1,18 +1,9 @@
 #class general kill
 #class general open
 
-#act {There is a%? %w%? %*here.} { #var {state[cur_mob]} %2}
-#nop strip last characters of multy-mobs to account for es / ies
-#nop thos letter will prevent attacks
-#act {There are %w %w%?%?%? %*here.} { #var {state[cur_mob]} %2}
-#act {There is nobody here.} { #var {state[cur_mob]} "0"}
-
-#nop TODO: cur mob doesn't get reset properly on death. there's no line
-#nop is another person is in the room, but there is no mob
-
 #alias {health_check}
 {
-  #send he;
+  #send {};
   #if { $state[hpp] < 80 && $state[curMP] > $config[mpCureThreshold] && $config[stCure] != {}} {
     #send {cast $config[stCure] $config[charName]};
   }
@@ -20,9 +11,7 @@
 
 #alias ra { #var {state[runArena]} $TRUE;arena_check }
 #alias ka { #var {state[runArena]} $FALSE }
-#act {^You're in the %1.$} {
-  #regexp {%1} {arena} {#var {state[inArena]} $TRUE} {#var {state[inArena]} $FALSE}
-}
+
 
   #nop  Check Health, (requires health.tt active) leave if low;
   #nop 2019-12-28 TODO: When trying to leave arena, disable attacking.  Especially;
@@ -53,7 +42,9 @@
       #send {};
       #var {state[physTick]} 6
     }
-  } {#nop}
+  } {
+    #nop
+  }
 }
 
 #nop ---------------------------------------------------------------------------
@@ -74,34 +65,29 @@
 
 
 #alias {run_combat} {
-  #nop  Check for Mob, not necessary in general cause of the health checks
-  #nop #send {};
-  #nop #while {$canAttack == 1} { };
-  #nop #act {^You are still physically exhausted} {#nop};
-
   #if { $combatOff == 0 && $state[fleeing] == $FALSE} {
     #if { $state[spellTick] == 0 } {
       #nop #send {c teka $cur_mob};
     };
 
     #if { $state[physTick] == 0 } {
-      #regexp {$state[cur_mob]}  {"0"} { #nop } {
-        #6 {a $state[cur_mob]}
+      #regexp {$state[cur_mob]}  {"0"} { 
+	    #nop 
+	  } {
+        #$config[numAttacks] {a $state[cur_mob]}
       }
     }
   }
-};
+}
 
 #tick {arena} {arena_check} {4}
 #tick {combat} {run_combat} {1}
 #alias {gk} {#class general kill}
 
-#var spellTick 0
-#var physTick 0
 #tick {checkTick} {
   #if { $state[spellTick] > 0 } {
     #math {state[spellTick]} {$state[spellTick] - 1}
-  }
+  };
   #if { $state[physTick] > 0 } {
     #math {state[physTick]} {$state[physTick] - 1}
   }

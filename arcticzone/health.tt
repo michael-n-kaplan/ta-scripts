@@ -1,12 +1,5 @@
 #class {health} {kill}
 #class {health} {open}
-#unsplit
-
-#act {enters the arena through the dungeon gate} { #send {} }
-
-#act {A %1 appears in a puff of reddish smoke} { #send {}}
-#act {%1 is asking to join your group.} {add %1}
-#act {The %1 falls to the ground lifeless!} {gr;st;#var cur_mob "0";;}
 
 #gag {Your group currently consists of:}
 #act {ST:%1]} {#line gag; #var ST %1}
@@ -14,19 +7,7 @@
 #nop Below action breaks tele-arena
 #gag {^$} 
 
-#nop Having an extra semi-colon at the end of a command list
-#nop cause a return char to be sent to the server.  This led to
-#nop a ton of spam messages
-#gag {^Status:       %1} 
-#nop #act {^Status:       %w} { #var status %1; }
-#gag {^Level:        %d}
-#nop #act {^Level:        %d} { #line gag; #var level %1; }
-#act {^Experience:   %d} { #line gag; #var exp %1}
-#nop #act {^Rune:         %1} { #line gag; #var rune %1; }
-#gag {^Rune:         %1}
-
 #nop #alias refresh_stats { he; ep; }
-#alias refresh_stats { #send {} }
 #nop  Below prompt attempt didn't work because format wasn't being rerun
 #nop #format main_prompt {hp: [%d/%d] (%d%%)  mp: [%d/%d] (%d%%)  exp: %d tick in: %d} {$cur_health} $max_health $ph $cur_mana $max_mana $pm $exp $physTick;
 #nop #prompt {Rune:     } {$main_prompt}
@@ -40,7 +21,7 @@
 
 #prompt {Encumberance: } {hp: [$state[curHP]/$state[maxHP]] ($state[hpp]%%)  mp: [$state[curMP]/$state[maxMP]] ($state[mpp]%%)  xp: $state[exp] tick: $state[physTick]  ST: $ST  Flee: $state[fleeing]} {2};
 
-#ticker {prompt_ticker} {refresh_stats} {8}
+#nop #ticker {prompt_ticker} {refresh_stats} {8}
 #alias {hk} {#class health kill; #unsplit}
 
 #class {health} {close}

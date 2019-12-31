@@ -22,6 +22,7 @@ and abilities all get set here.
   {noFoodCmd}{#end}
   {mpCureThreshold}{1}
   {charName}{}
+  {numAttacks}{3}
 }
 
 #var {state} {
