@@ -60,7 +60,7 @@ modifying global state variables.
     #var {state[exp]}  {%6}
 };
 
-
+#act {^You are still physically exhausted} {#var {state[physTick]} 15};
 #act {^Your attack hit} {#var {state[physTick]} 15};
 #act {^Your skillful attack} {#var {state[physTick]} 15};
 #act {^Your attack missed} {#var {state[physTick]} 15};

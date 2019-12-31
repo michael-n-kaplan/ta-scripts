@@ -65,6 +65,15 @@
 
 
 #alias {run_combat} {
+  #if { $state[thirsty] == $TRUE } {
+    #send {$config[drinkCmd]};
+	#var {state[thirsty]} $FALSE 
+  };
+  #if { $state[hungry] == $TRUE } {
+    #send {$config[foodCmd]};
+	#var {state[hungry]} $FALSE 
+  };
+
   #if { $combatOff == 0 && $state[fleeing] == $FALSE} {
     #if { $state[spellTick] == 0 } {
       #nop #send {c teka $cur_mob};

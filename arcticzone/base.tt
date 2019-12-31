@@ -46,7 +46,7 @@ and abilities all get set here.
   {runArena}{$FALSE}
   {inArena}{$FALSE}
   {healing}{$FALSE}
-  {cur_mob}{}
+  {cur_mob}{"0"}
 }
 
 
