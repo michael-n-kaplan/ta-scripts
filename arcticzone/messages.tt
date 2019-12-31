@@ -9,7 +9,7 @@ modifying global state variables.
         if not.
 }
 
-#event {RECEIVED OUTPUT} {#var {config[receivedOutput]} $TRUE}
+#event {RECEIVED OUTPUT} { #var {state[receivedOutput]} $TRUE }
 
 #nop {person or mob, hit 'enter' to get more info}
 #act {enters the arena through the dungeon gate} { #send {} }
@@ -22,6 +22,9 @@ modifying global state variables.
 
 #act {You're thirsty.} {#var {state[thirsty]} {$TRUE}}
 #act {You're hungry.} {#var {state[hungry]} {$TRUE}}
+
+#act {falls to the ground lifeless} {#var {state[cur_mob]} {0} }
+#act {From %1: %2} { }
 
 #act {Type 'STATBAR' for a list of statbar options.} {
     #showme {Setting statbar};
@@ -41,7 +44,15 @@ modifying global state variables.
     #var {state[maxHP]} {%2};
     #var {state[maxMP]} {%4};
     #math {state[hpp]} {$state[curHP] * 100 / $state[maxHP]};
-    #math {state[mpp]} {$state[curMP] * 100 / $state[maxMP]}
+    #math {state[mpp]} {$state[curMP] * 100 / $state[maxMP]};
+    #var {state[exp]}  {%6}
 };
+
+
+#act {^Your attack hit} {#var {state[physTick]} 15};
+#act {^Your skillful attack} {#var {state[physTick]} 15};
+#act {^Your attack missed} {#var {state[physTick]} 15};
+#act {^Sorry, you don't see} {#var {state[cur_mob]} "0"};
+#act {dodged your attack} { #var {state[physTick]} 15 }
 
 #class {messages}{close}

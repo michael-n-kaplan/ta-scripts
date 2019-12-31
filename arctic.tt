@@ -1,0 +1,5 @@
+#read {arcticzone\base.tt}
+#read {arcticzone\messages.tt}
+#read {arcticzone\health.tt}
+#read {arcticzone\general.tt}
+#read {arcticzone\movement.tt}

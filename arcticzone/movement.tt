@@ -67,10 +67,10 @@
 }
 
 #alias test_result {
-   #if {$receivedOutput == $FALSE} {
+   #if {$state[receivedOutput] == $FALSE} {
      #delay {waitMove} {test_result;} {.5}
    } {
-   #if {$moveOK == $FALSE || $lastCommandOK == $FALSE} {
+   #if {$state[moveOK] == $FALSE || $state[lastCommandOK] == $FALSE} {
      #echo {move or last command failed, rerun};
      #delay {movePause} {runpath} {.75};
    } { 
@@ -85,9 +85,9 @@
   #list mpath size path_len;
   #if {$next_step > $path_len} { #nop } {
     #list mpath get $next_step step;
-    #var moveOK $TRUE;
-    #var lastCommandOK $TRUE;
-    #var receivedOutput $FALSE;
+    #var {state[moveOK]} $TRUE;
+    #var {state[lastCommandOK]} $TRUE;
+    #var {state[receivedOutput]} $FALSE;
     #send $step;
     #delay {waitMove} {test_result;} {.5};
   }

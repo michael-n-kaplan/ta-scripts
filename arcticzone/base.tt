@@ -36,6 +36,7 @@ and abilities all get set here.
   {curMP}{}
   {maxHP}{}
   {maxMP}{}
+  {exp}{}
   {hpp}{}
   {mpp}{}
   {lastCommandOK}{$TRUE}
@@ -44,7 +45,43 @@ and abilities all get set here.
   {runArena}{$FALSE}
   {inArena}{$FALSE}
   {healing}{$FALSE}
+  {cur_mob}{}
 }
 
+
+#nop This script is written for v1.99.7 and higher
+
+#alias {log}
+{
+	#if {"%0" == "on"}
+	{
+		#if {"$logging" != "on"}
+		{
+			#format {logfile} {logs\%t.html} {%Y-%m-%d};
+			#log append $logfile;
+			#var logging on
+		};
+		#else
+		{
+			#showme You are already logging.
+		}
+	};
+	#elseif {"%0" == "off"}
+	{
+		#if {"$logging" == "on"}
+		{
+			#log off;
+			#var logging off
+		};
+		#else
+		{
+			#showme You are not logging.
+		}
+	};
+	#else
+	{
+		#showme Turn logging on or off?
+	}
+}
 
 #class {base} {close}
