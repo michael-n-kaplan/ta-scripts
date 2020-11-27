@@ -82,21 +82,23 @@ modifying global state variables.
 #nop TEMPORARY until scrolls fixed
 
 #act {^The %1 dropped a scroll of %2} { #send {drop scroll} }
-#nop abort on below?
-#act {Sorry, there's no exit in that direction.} {#nop}
+#nop TODO: abort on below?
+#act {Sorry, there's no exit in that direction.} {
+  #var {state[moveOK]} $FALSE
+}
 #act {Sorry, you'll have to rest a while before you can move.} {
   #var {state[moveOK]} $FALSE;
-  #echo {Tired - Move Failed!}
+  @msg{{Tired - Move Failed!}}
 }
 
 #act {In your haste, you trip and fall!} {
   #var {state[moveOK]} $FALSE;
-  #echo {Hasty - Move Failed!}
+  @msg{{Hasty - Move Failed!}}
 }
 
 #act {You must rest a moment before proceeding} {
   #var {state[lastCommandOK]} $FALSE;
-  #echo {Command Overflow - Move Failed!}
+  @msg{{Command Overflow - Move Failed!}}
 }
 
 #NOP 2019-12-28 -- added for failed movement on arcticzone bbs

@@ -25,6 +25,7 @@ and abilities all get set here.
   {numAttacks}{4}
   {cureCmd}{}
   {curePercent}{95}
+  {verbose}{$FALSE}
 }
 
 #var {state} {
@@ -93,4 +94,17 @@ and abilities all get set here.
 	}
 }
 
+#alias {verbose} {
+  #if {$config[verbose] == $FALSE} {
+    $config[verbose] = $TRUE
+  };
+  #else {
+    $config[verbose] = $FALSE
+  }
+}
+
+#function {msg} {
+  #if {$config[verbose] == $TRUE} {#echo %0};
+  #return #nop
+}
 #class {base} {close}

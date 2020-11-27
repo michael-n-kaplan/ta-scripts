@@ -1,0 +1,43 @@
+#EVENT {SESSION CONNECTED}
+{
+     #split 6 1
+}
+
+#VARIABLE {window}
+{
+     {1} {}
+     {2} {}
+     {3} {}
+     {4} {}
+     {5} {}
+     {6} {}
+     {7} {}
+     {8} {}
+     {9} {}
+     {10} {}
+}
+#ACTION {~%1 tells you '%2}
+{
+     showtowin %1 tells you '%2
+}
+
+#ACTION {~%1 chats '%2}
+{
+     showtowin %1 chats '%2
+}
+
+#ALIAS {showtowin}
+{
+     #list window del 1;
+     #list window ins -1 {%0};
+     #draw green rounded box 1 1 6 80 $window[-10..-1]
+}
+
+#ALIAS {test}
+{
+     #split 6 1;
+     #screen clear top;
+     #showme <138>Bubba tells you 'hello';
+     #showme <158>Pamela chats 'bye';
+     #showme <168>Bobbo tells you 'bli bla blo'
+}

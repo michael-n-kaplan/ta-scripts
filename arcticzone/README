@@ -1,3 +1,12 @@
+# Tele Arena Scripts for Tele-Arena (platinum?) on Arctic Zone BBS
+
+This version of telearena added many enhancements such as ready 
+notifications and a built-in prompt.  While updating the scripts,
+care was not taken to ensure continued usage for both arctic zone and
+stock 5.6d-Gold.
+
+
+
 Game Chat:
   bc <message>
   store / retrive items from vault
