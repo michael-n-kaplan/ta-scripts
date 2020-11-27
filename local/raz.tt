@@ -1,0 +1,6 @@
+#read {base.tt}
+#read {messages.tt}
+#read {health.tt}
+#read {general.tt}
+#read {movement.tt}
+#read {rogue.tt}

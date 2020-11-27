@@ -1,6 +1,8 @@
 #class {messages}{kill}
 #class {messages}{open}
 
+#alias {reloadM} {#class messages kill; #read messages.tt}
+
 #nop {
     Relies on base.tt to set up config variable.  Reacts to messages by
 modifying global state variables.
@@ -107,5 +109,65 @@ modifying global state variables.
 #act {^Your attack missed} {#var {state[physTick]} 15};
 #act {^Sorry, you don't see} {#var {state[cur_mob]} "0"};
 #act {dodged your attack} { #var {state[physTick]} 15 }
+
+#NOP 2020-11-26 - copied from older messages.tt for non arctic boards
+#function check_suppress {
+  #if { $suppress:status == $TRUE } {
+    #line gag
+  };
+  #return #nop
+}
+#nop { 
+  TODO: How to do a generic toggle function to call like:
+    @toogle{suppress:status}
+}
+
+#alias suppress { 
+  #if {$suppress:status == $TRUE } { 
+    #var suppress:status $FALSE
+  }; 
+  else{
+    #var suppress:status $TRUE
+  }
+}
+
+#alias sst {
+  #var supress:status $FALSE;
+  st;
+  #var supress:status $TRUE
+}
+
+#nop HHHHH: status
+#act {Level:        %1} { @check_suppress{}; #var state[level] %1}
+#act {Experience:   %1} { @check_suppress{}; #var state[experience] %1}
+#act {Rune:         %1} { @check_suppress{}; #var state[rune] %1}
+#act {Status:       %1} { @check_suppress{}; #var state[status] %1}
+#act {Race:         %1} { @check_suppress{}; #var status[race] %1}
+#act {Class:        %1} { @check_suppress{}; #var status[class] %1}
+#act {Intellect:    %1} { @check_suppress{}; #var status[int] %1}
+#act {Knowledge:    %1} { @check_suppress{}; #var status[know] %1}
+#act {Physique:     %1} { @check_suppress{}; #var status[phys] %1}
+#act {Stamina:      %1} { @check_suppress{}; #var status[stam] %1}
+#act {Agility:      %1} { @check_suppress{}; #var status[agil] %1}
+#act {Charisma:     %1} { @check_suppress{}; #var status[char] %1}
+#act {Armor Rating: %1} { @check_suppress{}; #var status[ar] %1 }
+#act {Weapon:       %1} { @check_suppress{}; #var status[weapon] %1}
+#act {Armor:        %1} { @check_suppress{}; #var status[armor] %1}
+#act {Encumberance: %1} { @check_suppress{}; #var status[enc] %1}
+#act {Mana:         %d / %d} 
+{
+  @check_suppress{};
+  #var state[curMP] %1; 
+  #var state[maxMP] %2;
+  #math state[mpp] { $state[cur_mana] * 100 / $state[max_mana] };
+}
+
+#act {Vitality:     %d / %d} 
+{
+  @check_suppress{};
+  #var state[curHP] %1; 
+  #var state[maxHP] %2;
+  #math state[hpp] { $state[cur_health] * 100 / $state[max_health] };
+}
 
 #class {messages}{close}

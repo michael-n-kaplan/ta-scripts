@@ -1,0 +1,19 @@
+#CLASS {WORLDS} OPEN
+
+#VARIABLE {worldlist}
+{
+    {localhost} 
+    {
+        {ALIAS} {local}
+        {CHARACTER} {}
+        {FILE} {}
+        {HOST} {127.0.0.1}
+        {INPUT} {localhost}
+        {NAME} {localhost}
+        {PASSWORD} {}
+        {PORT} {23}
+        {SSL} {off}
+    }
+}
+
+#CLASS {WORLDS} CLOSE

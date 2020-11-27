@@ -91,6 +91,7 @@
 #alias {gk} {#class general kill}
 
 #tick {checkTick} {
+  #send st;
   #if { $state[spellTick] > 0 } {
     #math {state[spellTick]} {$state[spellTick] - 1}
   };

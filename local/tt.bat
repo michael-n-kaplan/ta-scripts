@@ -1,0 +1,1 @@
+"..\..\WinTin++\bin\mintty.exe" -e "..\..\WinTin++\bin\tt++.exe" -g

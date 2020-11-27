@@ -1,0 +1,789 @@
+#line quiet #port init gui 0
+
+#function gui_link
+{
+	#format gui[link] {%+11h} {%3};
+	#replace gui[link] {#} { };
+	#line sub esc #var gui[link] {]68;2;%1;%2[4;24m$gui[link][24m};
+	#return $gui[link]
+}
+
+#function gui_profile_link
+{
+	#format gui[link] {%-24.24s} {%3};
+
+	#line sub esc #var gui[link] {]68;2;%1;%2[4;24m$gui[link][24m};
+	#return $gui[link]
+}
+
+#event {PRESSED SECURE LINK COMMAND MOUSE BUTTON ONE} {%4}
+
+#event {PRESSED SECURE LINK COMMAND MOUSE BUTTON THREE}
+{
+	#line ignore #showme {<138>Group<178>: %6 <138>Command<178>: %4}
+}
+
+#event {PRESSED SECURE LINK WORLD MOUSE BUTTON ONE}
+{
+	world_click {%4}
+}
+
+#event {PRESSED SECURE LINK WORLD MOUSE BUTTON THREE}
+{
+	#line ignore #showme {<138>Group<178>: %6 <138>Command<178>: %4}
+}
+
+#event {DOUBLE-CLICKED SECURE LINK WORLD MOUSE BUTTON ONE} {gui_connect}
+
+#button {-2 28 -2 -28;PRESSED MOUSE BUTTON ONE}
+{
+	profile_tab_update;
+
+	#screen inputregion -2 28 -2 -28 profile_tab_INPUT;
+
+	profile_tab_set INPUT
+}
+
+#alias {gui_worlds}   {world_tab worlds}
+#alias {gui_sponsors} {world_tab sponsors}
+
+#alias {world_tab}
+{
+	#var gui[world_tab] %1;
+
+	#class world_tab kill;
+
+	#if {{$gui[world_tab]} == {worlds}}
+	{
+		#draw jade Yellow rounded calign box 1  1 3 13 {@gui_link{COMMAND;{profile_tab_cancel;world_tab worlds;draw_worlds 0};worlds}};
+		#draw jade Azure  rounded calign box 1 14 3 26 {@gui_link{COMMAND;{profile_tab_cancel;world_tab sponsors;draw_sponsors 0};sponsors}}
+	};
+	#else
+	{
+		#draw jade Azure  rounded calign box 1  1 3 13 {@gui_link{COMMAND;{profile_tab_cancel;world_tab worlds;draw_worlds 0};worlds}};
+		#draw jade Yellow rounded calign box 1 14 3 26 {@gui_link{COMMAND;{profile_tab_cancel;world_tab sponsors;draw_sponsors 0};sponsors}}
+	};
+
+	#draw jade Green rounded calign box -3  1 -1 13 {@gui_link{COMMAND;gui_new;new}};
+	#draw jade Green rounded calign box -3 14 -1 26 {@gui_link{COMMAND;#delay 0 #end;exit}}
+}
+
+#alias {draw_world}
+{
+	#if {{%2} == {%3}}
+	{
+		#draw jade Yellow rounded TALIGN box %1*3+1 1 %1*3+3 26 @gui_profile_link{WORLD;%2;%2};
+	};
+	#else
+	{
+		#draw jade Azure rounded TALIGN box %1*3+1 1 %1*3+3 26 @gui_profile_link{WORLD;%2;%2}
+	}
+}
+
+#alias {world_click}
+{
+	#var gui[active] {%1};
+
+	profile_tab_cancel;
+
+	#if {{$gui[world_tab]} == {worlds}}
+	{
+		#var gui[new] {$worldlist[%1]};
+
+		draw_worlds {%1}
+	};
+	#else
+	{
+		#var gui[new] {$info[BANNERS][%1]} {{SSL}{off}} {{FILE}{}} {{CHARACTER}{}} {{PASSWORD}{}} {{INPUT}{}};
+
+		draw_sponsors {%1}
+	};
+	reload_profile_tab;
+
+	#buffer end
+}
+
+#function {gui_size_left}
+{
+	#if {{$gui[world_tab]} == {worlds}}
+	{
+		#return &worldlist[];
+	};
+	#else
+	{
+		#return &info[BANNERS][];
+	}
+}
+
+#alias {gui_draw_left}
+{
+	#if {{$gui[world_tab]} == {worlds}}
+	{
+		draw_worlds
+	};
+	#else
+	{
+		draw_sponsors
+	}
+}
+
+#alias {draw_worlds}
+{
+	#class world_tab kill;
+	#class profile_tab kill;
+
+	#draw tile 4 1 -4 26 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
+
+	#if {&worldlist[] == 0}
+	{
+		#return;
+	};
+
+	#local index 1;
+	#local offset 1;
+
+	#loop $gui[index] &worldlist[] index
+	{
+		draw_world {$offset} {$worldlist[+$index][NAME]} {%1};
+
+		#math offset $offset + 1;
+
+		#if {$offset * 3 > $gui[rows] - 6}
+		{
+			#break;
+		};
+	}
+}
+
+#alias {draw_sponsors}
+{
+	#class world_tab kill;
+	#class profile_tab kill;
+
+	#draw tile 4 1 -4 26 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
+
+	#if {&info[BANNERS][] == 0}
+	{
+		#line ignore #showme <faa>Sponsors: No banners found.;
+		#return;
+	};
+
+	#local index 1;
+	#local offset 1;
+
+	#loop $gui[index] &info[BANNERS][] index
+	{
+		draw_world {$offset} {$info[BANNERS][+$index][NAME]} {%1};
+
+		#math offset $offset + 1;
+
+		#if {$offset * 3 > $gui[rows] - 6}
+		{
+			#break;
+		};
+	}
+}
+
+#alias {gui_tab_forward}
+{
+	#screen get INPUT_NAME input_name;
+
+	#switch {{$input_name}}
+	{
+		#case {{profile_tab_NAME}}      {profile_tab_cycle ALIAS NAME};
+		#case {{profile_tab_ALIAS}}     {profile_tab_cycle HOST ALIAS};
+		#case {{profile_tab_HOST}}      {profile_tab_cycle PORT HOST};
+		#case {{profile_tab_PORT}}      {profile_tab_cycle FILE PORT};
+		#case {{profile_tab_FILE}}      {profile_tab_cycle CHARACTER FILE};
+		#case {{profile_tab_CHARACTER}} {profile_tab_cycle PASSWORD CHARACTER};
+		#case {{profile_tab_PASSWORD}}  {profile_tab_cycle INPUT PASSWORD};
+		#case {{profile_tab_INPUT}}     {profile_tab_cycle NAME INPUT};
+	}
+}
+
+#alias {gui_tab_backward}
+{
+	#screen get INPUT_NAME input_name;
+
+	#switch {{$input_name}}
+	{
+		#case {{profile_tab_NAME}}      {profile_tab_cycle INPUT NAME};
+		#case {{profile_tab_ALIAS}}     {profile_tab_cycle NAME ALIAS};
+		#case {{profile_tab_HOST}}      {profile_tab_cycle ALIAS HOST};
+		#case {{profile_tab_PORT}}      {profile_tab_cycle HOST PORT};
+		#case {{profile_tab_FILE}}      {profile_tab_cycle PORT FILE};
+		#case {{profile_tab_CHARACTER}} {profile_tab_cycle FILE CHARACTER};
+		#case {{profile_tab_PASSWORD}}  {profile_tab_cycle CHARACTER PASSWORD};
+		#case {{profile_tab_INPUT}}     {profile_tab_cycle PASSWORD INPUT};
+	}
+}
+
+#alias {profile_tab_cycle}
+{
+	profile_tab_pull %2;
+
+	#screen inputregion $gui[input][%1][top_row] $gui[input][%1][top_col] $gui[input][%1][bot_row] $gui[input][%1][bot_col] profile_tab_%1;
+
+	profile_tab_set %1;
+}
+
+#alias {profile_tab_pull}
+{
+	#if {{%1} == {PASSWORD}}
+	{
+		#cursor get temp;
+		#var gui[new][%1] {@b64z{$temp}};
+		#unvar temp
+	};
+	#else
+	{
+		#cursor get {gui[new][%1]};
+	};
+	#cursor clear;
+	profile_tab %1
+}
+
+#alias {profile_tab_update}
+{
+	#screen get INPUT_NAME input_name;
+
+	#regex {$input_name} {profile_tab_{NAME|ALIAS|INPUT|HOST|PORT|FILE|CHARACTER|PASSWORD}}
+	{
+		profile_tab_pull &1
+	}
+}
+
+#function gui_toggle
+{
+	#if {{%1} == {%2}}
+	{
+		#return %3
+	};
+	#return %2
+}
+
+#alias {profile_tab_set}
+{
+	#if {{%1} == {PASSWORD}}
+	{
+		#local temp {};
+		#format temp %+64Z {$gui[new][%1]};
+		#cursor set {$temp}
+	};
+	#else
+	{
+		#cursor set {$gui[new][%1]};
+	}
+}
+
+#alias {profile_tab_input}
+{
+	#var gui[input][%5] {{top_row}{%1}{top_col}{%2}{bot_row}{%3}{bot_col}{%4}};
+
+	#if {{%6} == {toggle}}
+	{
+		#button {%1 %2 %3 %4;PRESSED MOUSE BUTTON ONE}
+		{
+			#var gui[new][%5] @gui_toggle{$gui[new][%5];on;off};
+			profile_tab %5
+		}
+	};
+	#else
+	{
+		#button {%1 %2 %3 %4;PRESSED MOUSE BUTTON ONE}
+		{
+			profile_tab_update;
+			#screen inputregion %1 %2 %3 %4 profile_tab_%5;
+			profile_tab_set %5;
+		};
+		#event {CATCH RECEIVED INPUT profile_tab_%5}
+		{
+			profile_tab_pull %5;
+			#screen inputregion -2 28 -2 -28 profile_tab_INPUT;
+		}
+	}
+}
+
+#function b64z
+{
+	#if {{%0} === {}}
+	{
+		#return {}
+	};
+	#local temp {};
+	#format temp %+64z %0;
+	#return $temp
+}
+
+#function b64Z
+{
+	#if {{%0} === {}}
+	{
+		#return {}
+	};
+	#local temp {};
+	#format temp %+64Z %0;
+	#return $temp
+}
+
+#function starout
+{
+	#local temp {%0};
+	#replace temp {%.} {*};
+	#return $temp
+}
+
+#alias {profile_tab_draw}
+{
+	#if {{%5} == {PASSWORD}}
+	{
+		#var temp @b64Z{$gui[new][%5]};
+		#draw jade Silver rounded talign box %1 %2 %3 %4 {@starout{$temp}};
+		#unvar temp
+	};
+	#else
+	{
+		#draw jade Silver rounded talign box %1 %2 %3 %4 {$gui[new][%5]};
+	};
+	#draw jade Azure scaled tile %1 %2+2 %1 %2+3 *gui[new][%5];
+	#class profile_tab assign
+	{
+		profile_tab_input %1+1 %2+1 %1+1 %4-1 %5 %6
+	};
+}
+
+#alias {profile_tab}
+{
+	#switch {{%1}}
+	{
+		#case {{NAME}}      {profile_tab_draw 1 -26 3 -1 NAME};
+		#case {{ALIAS}}     {profile_tab_draw 4 -26 6 -1 ALIAS};
+		#case {{HOST}}      {profile_tab_draw 7 -26 9 -1 HOST};
+		#case {{PORT}}      {profile_tab_draw 10 -26 12 -9 PORT};
+		#case {{SSL}}       {profile_tab_draw 10 -7 12 -1 SSL toggle};
+		#case {{FILE}}      {profile_tab_draw 13 -26 15 -1 FILE};
+		#case {{CHARACTER}} {profile_tab_draw 16 -26 18 -1 CHARACTER};
+		#case {{PASSWORD}}  {profile_tab_draw 19 -26 21 -1 PASSWORD}
+	};
+}
+
+#alias {profile_tab_cancel}
+{
+	#screen get INPUT_NAME input_name;
+
+	#regex {$input_name} {profile_tab_{NAME|ALIAS|HOST|PORT|SSL|FILE|CHARACTER|PASSWORD}}
+	{
+		profile_tab_cycle INPUT &1
+	};
+
+	#screen clear square 1 -26 -1 -1;
+	#var gui[profile_tab] 0;
+	#math gui[index] 1
+}
+
+#alias {profile_tab_save}
+{
+	#screen get INPUT_NAME input_name;
+
+	#regex {$input_name} {profile_tab_{NAME|ALIAS|INPUT|HOST|PORT|SSL|FILE|CHARACTER|PASSWORD}}
+	{
+		profile_tab_pull &1
+	}
+}
+
+#alias {gui_new}
+{
+	#class profile_tab kill;
+
+	#var gui[new] {{NAME}{} {ALIAS}{} {HOST}{} {PORT}{} {SSL}{off} {FILE}{} {CHARACTER}{} {PASSWORD}{} {INPUT}{}};
+
+	reload_profile_tab
+}
+
+#alias {gui_connect}
+{
+	#if {&gui[new] == 0}
+	{
+		#line ignore #showme <faa>Connect: No world selected;#return;
+	};
+
+	profile_tab_update;
+	#screen inputregion -2 28 -2 -28 profile_tab_INPUT;
+	#cursor clear;
+
+	#if {{$gui[new][ALIAS]} == {}}
+	{
+		#line ignore #showme <faa>Connect: No alias set;
+		#return
+	};
+
+	#if {{$gui[new][HOST]} == {}}
+	{
+		#line ignore #showme <faa>Connect: No host set;
+		#return
+	};
+
+	#if {{$gui[new][PORT]} == {}}
+	{
+		#line ignore #showme <faa>Connect: No port set;
+		#return
+	};
+
+	#line ignore #showme {<acf>Connecting to <ffa>$gui[new][NAME]<acf>..};
+
+	#buffer refresh;
+
+	#if {{$gui[new][SSL]} == {off}}
+	{
+		#session $gui[new][ALIAS] $gui[new][HOST] $gui[new][PORT] $gui[new][FILE];
+	};
+	#else
+	{
+		#ssl $gui[new][ALIAS] $gui[new][HOST] $gui[new][PORT] $gui[new][FILE];
+	};
+
+	#info SESSION save;
+
+	#if {{$info[SESSION][NAME]} !== {gui}}
+	{
+		#if {{@gui{$gui[new][CHARACTER]}} !== {}}
+		{
+			#send {@gui{$gui[new][CHARACTER]}};
+
+			#if {{@gui{$gui[new][PASSWORD]}} !== {}}
+			{
+				#send {@gui{@b64Z{$gui[new][PASSWORD]}}}
+			}
+		}
+	};
+	#else
+	{
+		#line ignore #showme <faa>Connect: Failed to connect to <ffa>$gui[new][NAME]<faa>.
+	}
+}
+
+#alias {gui_save}
+{
+	#if {&gui[new] == 0}
+	{
+		#CLASS WORLDS WRITE $info[SYSTEM][TINTIN]/worlds.tin;
+		#showme {<acf>Saving worlds.};
+		#return;
+	};
+
+	profile_tab_update;
+
+	#if {{$gui[new][NAME]} === {}}
+	{
+		#showme {<faa>Save: No profile name set.};
+		#return;
+	};
+
+	#screen inputregion -2 28 -2 -28 profile_tab_INPUT;
+
+	#var {worldlist[$gui[new][NAME]]} {$gui[new]};
+
+	#unvar {worldlist[$gui[new][NAME]][DESC]};
+
+	gui_worlds;
+
+	draw_worlds {&worldlist[$gui[new][NAME]]};
+
+	reload_profile_tab;
+
+	#line ignore #showme {<acf>World <ffa>$gui[new][NAME]<acf> saved.};
+
+	#CLASS WORLDS WRITE $info[SYSTEM][TINTIN]/worlds.tin;
+}
+
+#alias {gui_remove}
+{
+	#if {&gui[new] == 0}
+	{
+		#showme {<faa>Remove: No profile loaded.};
+		#return;
+	};
+	#if {{$gui[new][NAME]} === {}}
+	{
+		#showme {<faa>Remove: No profile name set.};
+		#return;
+	};
+
+	profile_tab_save;
+
+	#unvar {worldlist[$gui[new][NAME]]};
+
+	profile_tab_cancel;
+
+	draw_worlds 0;
+
+
+	#line ignore #showme {<acf>World <ffa>$gui[new][NAME]<acf> removed.};
+
+	#CLASS WORLDS WRITE $info[SYSTEM][TINTIN]/worlds.tin;
+}
+
+
+#alias {reload_profile_tab}
+{
+	#var gui[profile_tab] 1;
+
+	profile_tab NAME;
+	profile_tab ALIAS;
+	profile_tab HOST;
+	profile_tab PORT;
+	profile_tab SSL;
+	profile_tab FILE;
+	profile_tab CHARACTER;
+	profile_tab PASSWORD;
+
+	#if {&gui[new][DESC] && $gui[cols] > 26}
+	{
+		#draw jade bumped ualign rounded scaled calign scroll box 1 1 1 $gui[cols] {<ffa>$gui[new][NAME] <fff>- <ffa>$gui[new][WEBSITE]};
+		#draw jade Silver ualign rounded scaled scroll box 1 1 1 $gui[cols] {$gui[new][DESC]}
+	};
+
+	#draw jade Green rounded calign box -3 14 -1 26 {@gui_link{COMMAND;gui_connect;connect}};
+
+	#draw jade Green rounded calign box -3 -26 -1 -14 {@gui_link{COMMAND;gui_save;save}};
+
+	#if {{$gui[world_tab]} !== {sponsors}}
+	{
+		#draw jade Green rounded calign box -3 -13 -1 -1  {@gui_link{COMMAND;gui_remove;remove}};
+	};
+	#macro {	} {gui_tab_forward};
+	#macro {[Z} {gui_tab_backward};
+}
+
+#event {SESSION ACTIVATED}
+{
+	gui_reload
+}
+
+#alias {gui_reload}
+{
+	#split 1 3 27 27;
+	#screen clear split;
+	#screen inputregion -2 28 -2 -28 profile_tab_INPUT;
+
+	#screen get rows gui[rows];
+	#screen get cols gui[cols];
+
+	#math gui[cols] $gui[cols] - 54;
+
+	#var gui[index] 1;
+
+	#draw Orange rounded box -3 27 -1 -27;
+	#draw Orange rounded box 1 27 -4 -27;
+
+	world_tab $gui[world_tab];
+
+	#switch {{$gui[world_tab]}}
+	{
+		#case {{worlds}}   {draw_worlds 0};
+		#case {{sponsors}} {draw_sponsors 0}
+	};
+
+	#if {$gui[profile_tab] == 1}
+	{
+		reload_profile_tab
+	}
+}
+
+#alias {gui_init}
+{
+	#config mouse on;
+	#config scroll_lock off;
+
+	#class WORLDS assign #variable {worldlist} {};
+
+	#info system save;
+
+	#banner save;
+
+	#line quiet #read $info[SYSTEM][TINTIN]/worlds.tin;
+
+	#var gui[pause] 0;
+	#var gui[profile_tab] 0;
+	#var gui[world_tab] worlds;
+
+	#screen inputregion -2 28 -2 -28 profile_tab_INPUT;
+
+	#var gui[input][INPUT] {{top_row}{-2}{top_col}{28}{bot_row}{-2}{bot_col}{-28}};
+
+	gui_reload;
+
+	#if {$gui[cols] > 75}
+	{
+		#draw Silver huge traced scroll tile 1 1 6 73 { TINTIN++};
+		#draw Silver calign scroll tile 1 1 2 75 {}{$info[SYSTEM][CLIENT_VERSION]};
+		#draw Silver calign scroll tile 1 1 3 75 {}{Code by Peter Unold, Bill Reiss, and Igor van den Hoven}
+	};
+	#elseif {$gui[cols] > 40}
+	{
+		#draw Silver huge traced scroll tile 1 1 6 40 { TT++};
+		#draw Silver calign scroll tile 1 1 2 40 {}{$info[SYSTEM][CLIENT_VERSION]};
+		#draw Silver calign scroll tile 1 1 4 40 {}{Code by Peter Unold, Bill Reiss,}{}{and Igor van den Hoven}
+	};
+	#elseif {$gui[cols] > 18}
+	{
+		#draw Silver calign scroll tile 1 1 14 $gui[cols] {T I N T I N + +}{}{$info[SYSTEM][CLIENT_VERSION]}{}{Code by}{}{Peter Unold}{}{Bill Reiss}{}{and}{}{Igor van den Hoven};
+	};
+	#elseif {$gui[cols] > 8}
+	{
+		#draw Silver huge traced scroll tile 1 1 6 9 {T};
+		#draw Silver huge traced scroll tile 1 1 6 9 {T};
+		#draw Silver huge traced scroll tile 1 1 6 9 {+};
+		#draw Silver huge traced scroll tile 1 1 6 9 {+};
+		#draw Silver calign scroll tile 1 1 1 9 {$info[SYSTEM][CLIENT_VERSION]}
+	};
+	#elseif {$gui[cols] > 1}
+	{
+		#draw Silver calign scroll tile 1 1 8 $gui[cols] {T}{i}{n}{T}{i}{n}{+}{+}
+	}
+}
+
+#EVENT {SCREEN RESIZE}
+{
+	#delay {gui_reload} {gui_reload;#buffer end} {0.1}
+}
+
+#EVENT {SESSION DESTROYED} {#gts #delay 0 #end}
+
+#event {SCROLLED MOUSE WHEEL UP}
+{
+	#if {%1 <= 26}
+	{
+		#if {$gui[profile_tab] && $gui[index] > 1}
+		{
+			#math gui[index] $gui[index] - 1;
+			gui_draw_left
+		}
+	};
+	#elseif {$gui[profile_tab] && %3 >= -26}
+	{
+		#if {$gui[pause] == 1}
+		{
+			#return;
+		};
+		gui_tab_backward;
+		#var gui[pause] 1;
+		#delay 0.2 #var gui[pause] 0
+	};
+	#else
+	{
+		#buffer up 1
+	}
+}
+
+#event {SCROLLED MOUSE WHEEL DOWN}
+{
+	#if {%1 <= 26}
+	{
+		#if {$gui[profile_tab] && $gui[index] < @gui_size_left{} && @gui_size_left{} > $gui[rows] / 3 - 6}
+		{
+			#math gui[index] $gui[index] + 1;
+			gui_draw_left
+		}
+	};
+	#elseif {$gui[profile_tab] && %3 >= -26}
+	{
+		#if {$gui[pause] == 1}
+		{
+			#return;
+		};
+		gui_tab_forward;
+		#var gui[pause] 1;
+		#delay 0.2 #var gui[pause] 0
+	};
+	#else
+	{
+		#buffer down 1;
+	}
+}
+
+gui_init

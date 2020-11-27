@@ -1,0 +1,4 @@
+#var {config[numAttacks]} 6
+#var {config[cureCmd]}     {drink anemone}
+#var {config[curePercent]} 71
+#var {config[fleePercent]} 0

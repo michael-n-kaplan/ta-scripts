@@ -19,7 +19,7 @@
 #nop    since prompt now defaults to the top, can change to 3 1, or fix prompt command
 #split 3 3
 
-#prompt {[HP:} {hp: [$state[curHP]/$state[maxHP]] ($state[hpp]%%)  mp: [$state[curMP]/$state[maxMP]] ($state[mpp]%%)  xp: $state[exp] tick: $state[physTick]  ST: $ST  Flee: $state[fleeing] Exits: $state[exits]} {-3};
+#prompt {Encumberance: } {hp: [$state[curHP]/$state[maxHP]] ($state[hpp]%%)  mp: [$state[curMP]/$state[maxMP]] ($state[mpp]%%)  xp: $state[exp] tick: $state[physTick]  ST: $ST  Flee: $state[fleeing] Exits: $state[exits]} {-3};
 
 #nop #ticker {prompt_ticker} {refresh_stats} {8}
 #alias {hk} {#class health kill; #unsplit}

@@ -37,9 +37,9 @@ function check_suppress {
 }
 
 #alias sst {
-  #var supress:status $FALSE;
+  #var suppress:status $FALSE;
   st;
-  #var supress:status $TRUE
+  #var suppress:status $TRUE
 }
 
 #nop HHHHH: status

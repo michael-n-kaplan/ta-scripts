@@ -25,8 +25,8 @@
 #nop #var desired_agi 27
 #nop #var desired_cha 5
 #nop #var desired_vit 29
-#nop   Goblin Rogue
-#var desired_int 12
+#nop   Goblin Rogue - max: 16, 18, 21, 22, 30, 13, 29
+#var desired_int 9
 #var desired_kno 5
 #var desired_phy 19
 #var desired_sta 20
